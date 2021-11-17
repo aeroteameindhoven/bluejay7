@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+<robot name="bluejay">
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/550GoPro/model.dae" scale="0.75 0.75 0.75"/>
+      </geometry>
+    </visual>
+      <collision>
+        <geometry>
+            <mesh filename="package://bluejay_description/meshes/550GoPro/model.dae" scale="0.75 0.75 0.75"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="10.0" />
+        <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="1.0"  iyz="0.0"  izz="1.0" />
+      </inertial>
+  </link>
+
+  <link name="1st_engine">
+    <visual>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 +0.05"/>
+      <material name="green"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.00112" ixy="0.0" ixz="0.0" iyy="0.00112" iyz="0.0" izz="0.00141"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_1st_motor" type="fixed">
+    <parent link="base_link"/>
+    <child link="1st_engine"/>
+    <origin xyz="0 0.21 0"/>
+  </joint>
+
+    <link name="2nd_engine">
+    <visual>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 +0.05"/>
+      <material name="green"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.00112" ixy="0.0" ixz="0.0" iyy="0.00112" iyz="0.0" izz="0.00141"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_2nd_motor" type="fixed">
+    <parent link="base_link"/>
+    <child link="2nd_engine"/>
+    <origin xyz="0.18 0.105 0"/>
+  </joint>
+
+    <link name="3rd_engine">
+    <visual>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 +0.05"/>
+      <material name="green"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.00112" ixy="0.0" ixz="0.0" iyy="0.00112" iyz="0.0" izz="0.00141"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_3rd_motor" type="fixed">
+    <parent link="base_link"/>
+    <child link="3rd_engine"/>
+    <origin xyz="0.18 -0.105 0"/>
+  </joint>
+
+  <link name="4th_engine">
+    <visual>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 +0.05"/>
+      <material name="green"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.00112" ixy="0.0" ixz="0.0" iyy="0.00112" iyz="0.0" izz="0.00141"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_4th_motor" type="fixed">
+    <parent link="base_link"/>
+    <child link="4th_engine"/>
+    <origin xyz="0 -0.21 0"/>
+  </joint>
+
+  <link name="5th_engine">
+    <visual>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 +0.05"/>
+      <material name="green"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.00112" ixy="0.0" ixz="0.0" iyy="0.00112" iyz="0.0" izz="0.00141"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_5th_motor" type="fixed">
+    <parent link="base_link"/>
+    <child link="5th_engine"/>
+    <origin xyz="-0.18 -0.105 0"/>
+  </joint>
+
+  <link name="6th_engine">
+    <visual>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 +0.05"/>
+      <material name="green"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.00112" ixy="0.0" ixz="0.0" iyy="0.00112" iyz="0.0" izz="0.00141"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_6th_motor" type="fixed">
+    <parent link="base_link"/>
+    <child link="6th_engine"/>
+    <origin xyz="-0.18 0.105 0"/>
+  </joint>
+
+<joint name="hokuyo_joint" type="fixed">
+  <axis xyz="0 1 0" />
+  <origin xyz="0 0 1" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="hokuyo_link"/>
+</joint>
+
+<!-- Hokuyo Laser -->
+<link name="hokuyo_link">
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+  <box size="0.1 0.1 0.1"/>
+    </geometry>
+  </collision>
+
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.1 0.1 0.1"/>
+    </geometry>
+  </visual>
+
+  <inertial>
+    <mass value="1e-5" />
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+  </inertial>
+</link>
+
+<!-- hokuyo -->
+  <gazebo reference="hokuyo_link">
+    <sensor type="ray" name="head_hokuyo_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>false</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-1.570796</min_angle>
+            <max_angle>1.570796</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.10</min>
+          <max>30.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise parameters based on published spec for Hokuyo laser
+               achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+               stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+               reading. -->
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>/rrbot/laser/scan</topicName>
+        <frameName>hokuyo_link</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+</robot>

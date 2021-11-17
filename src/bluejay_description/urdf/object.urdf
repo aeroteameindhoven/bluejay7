@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<robot name="bluejay">
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.3 0.3 0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.3 0.3 0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="3"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.015"/>
+    </inertial>
+  </link>
+
+  <link name="controller">
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.15"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <inertial>
+      <mass value="3"/>
+      <inertia ixx="0.005" ixy="0.0" ixz="0.0" iyy="0.005" iyz="0.0" izz="0.008125"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_controller" type="fixed">
+    <parent link="base_link"/>
+    <child link="controller"/>
+    <origin xyz="0 0 0"/>
+  </joint>
+
+  <link name="1st_engine">
+    <visual>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 +0.1"/>
+      <material name="green"/>
+    </visual>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.00112" ixy="0.0" ixz="0.0" iyy="0.00112" iyz="0.0" izz="0.00141"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_1st_motor" type="fixed">
+    <parent link="base_link"/>
+    <child link="1st_engine"/>
+    <origin xyz="0.21 0 0"/>
+  </joint>
+
+    <link name="2nd_engine">
+    <visual>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 +0.1"/>
+      <material name="green"/>
+    </visual>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.00112" ixy="0.0" ixz="0.0" iyy="0.00112" iyz="0.0" izz="0.00141"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_2nd_motor" type="fixed">
+    <parent link="base_link"/>
+    <child link="2nd_engine"/>
+    <origin xyz="0.105 0.18 0"/>
+  </joint>
+
+    <link name="3rd_engine">
+    <visual>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 +0.1"/>
+      <material name="green"/>
+    </visual>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.00112" ixy="0.0" ixz="0.0" iyy="0.00112" iyz="0.0" izz="0.00141"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_3rd_motor" type="fixed">
+    <parent link="base_link"/>
+    <child link="3rd_engine"/>
+    <origin xyz="-0.105 0.18 0"/>
+  </joint>
+
+  <link name="4th_engine">
+    <visual>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 +0.1"/>
+      <material name="green"/>
+    </visual>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.00112" ixy="0.0" ixz="0.0" iyy="0.00112" iyz="0.0" izz="0.00141"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_4th_motor" type="fixed">
+    <parent link="base_link"/>
+    <child link="4th_engine"/>
+    <origin xyz="-0.21 0 0"/>
+  </joint>
+
+  <link name="5th_engine">
+    <visual>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 +0.1"/>
+      <material name="green"/>
+    </visual>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.00112" ixy="0.0" ixz="0.0" iyy="0.00112" iyz="0.0" izz="0.00141"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_5th_motor" type="fixed">
+    <parent link="base_link"/>
+    <child link="5th_engine"/>
+    <origin xyz="-0.105 -0.18 0"/>
+  </joint>
+
+  <link name="6th_engine">
+    <visual>
+      <geometry>
+        <mesh filename="package://bluejay_description/meshes/Propeller/model.dae" scale="0.05 0.05 0.05"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 +0.1"/>
+      <material name="green"/>
+    </visual>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.00112" ixy="0.0" ixz="0.0" iyy="0.00112" iyz="0.0" izz="0.00141"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_6th_motor" type="fixed">
+    <parent link="base_link"/>
+    <child link="6th_engine"/>
+    <origin xyz="0.105 -0.18 0"/>
+  </joint>
+</robot>
