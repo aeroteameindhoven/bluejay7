@@ -8,7 +8,7 @@
 /logs
 
 # general catkin workspace setting
-*.workspace*
+*workspace*
 
 # the rest
 *.user*

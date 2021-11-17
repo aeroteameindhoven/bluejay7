@@ -1,0 +1,5 @@
+bluejay_gazebo
+/home/michem/softwareai7/devel/.private/bluejay_gazebo/cmake.lock /home/michem/softwareai7/devel/./cmake.lock
+/home/michem/softwareai7/devel/.private/bluejay_gazebo/lib/pkgconfig/bluejay_gazebo.pc /home/michem/softwareai7/devel/lib/pkgconfig/bluejay_gazebo.pc
+/home/michem/softwareai7/devel/.private/bluejay_gazebo/share/bluejay_gazebo/cmake/bluejay_gazeboConfig-version.cmake /home/michem/softwareai7/devel/share/bluejay_gazebo/cmake/bluejay_gazeboConfig-version.cmake
+/home/michem/softwareai7/devel/.private/bluejay_gazebo/share/bluejay_gazebo/cmake/bluejay_gazeboConfig.cmake /home/michem/softwareai7/devel/share/bluejay_gazebo/cmake/bluejay_gazeboConfig.cmake

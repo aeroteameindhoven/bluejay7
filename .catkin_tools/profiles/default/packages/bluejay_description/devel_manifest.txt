@@ -1,0 +1,5 @@
+bluejay_description
+/home/michem/softwareai7/devel/.private/bluejay_description/cmake.lock /home/michem/softwareai7/devel/./cmake.lock
+/home/michem/softwareai7/devel/.private/bluejay_description/lib/pkgconfig/bluejay_description.pc /home/michem/softwareai7/devel/lib/pkgconfig/bluejay_description.pc
+/home/michem/softwareai7/devel/.private/bluejay_description/share/bluejay_description/cmake/bluejay_descriptionConfig-version.cmake /home/michem/softwareai7/devel/share/bluejay_description/cmake/bluejay_descriptionConfig-version.cmake
+/home/michem/softwareai7/devel/.private/bluejay_description/share/bluejay_description/cmake/bluejay_descriptionConfig.cmake /home/michem/softwareai7/devel/share/bluejay_description/cmake/bluejay_descriptionConfig.cmake

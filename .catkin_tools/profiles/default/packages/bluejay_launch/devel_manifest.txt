@@ -1,0 +1,5 @@
+bluejay_launch
+/home/michem/softwareai7/devel/.private/bluejay_launch/cmake.lock /home/michem/softwareai7/devel/./cmake.lock
+/home/michem/softwareai7/devel/.private/bluejay_launch/lib/pkgconfig/bluejay_launch.pc /home/michem/softwareai7/devel/lib/pkgconfig/bluejay_launch.pc
+/home/michem/softwareai7/devel/.private/bluejay_launch/share/bluejay_launch/cmake/bluejay_launchConfig.cmake /home/michem/softwareai7/devel/share/bluejay_launch/cmake/bluejay_launchConfig.cmake
+/home/michem/softwareai7/devel/.private/bluejay_launch/share/bluejay_launch/cmake/bluejay_launchConfig-version.cmake /home/michem/softwareai7/devel/share/bluejay_launch/cmake/bluejay_launchConfig-version.cmake
