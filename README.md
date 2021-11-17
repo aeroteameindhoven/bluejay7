@@ -4,10 +4,11 @@
     http://wiki.ros.org/ROS/Installation
 ## Clone this folder into your catkin workspace
 
-## Copy the file ubuntu_sim_ros_melodic.sh into your home folder and run it.
+## Copy the file ubuntu_sim_ros.sh into your home folder and run it.
     https://www.cyberciti.biz/faq/run-execute-sh-shell-script/
-    Before running it execture this command in ur catkin_ws folder: catkin clean -y
 This script will install Gazebo + MAVROS + MAVLINK
+
+## Copy the file mavros_install.sh into your home folder and run it.
 
 ## Install QGroundControl for manual control of the simulated drone
     https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.html
