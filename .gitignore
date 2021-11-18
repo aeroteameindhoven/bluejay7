@@ -11,6 +11,7 @@
 *workspace*
 
 # the rest
+*tools
 *.user*
 /slamware*
 *.rosinstall*
