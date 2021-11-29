@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="bluejay_control" pkg="bluejay_control" type="bluejay_control" output="screen"/>
+</launch>
