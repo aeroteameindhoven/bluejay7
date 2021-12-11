@@ -27,13 +27,9 @@ private:
     bool check_goal;
     int count;
 
-    nav_msgs::Path global_path;
     mavros_msgs::State current_state;
-    geometry_msgs::Twist cmd_velo;
-    geometry_msgs::TwistStamped px4_velo;
     mavros_msgs::SetMode offb_set_mode;
-    geometry_msgs::PoseStamped pose;
-    geometry_msgs::PoseStamped global_goal;
+    geometry_msgs::PoseStamped setPosition;
     mavros_msgs::CommandBool arm_cmd;
 
     //subscriber
@@ -50,11 +46,7 @@ private:
     ros::ServiceClient arming_client;
     ros::ServiceClient set_mode_client;
 
-    void DynamicCallback(bluejay_control::ControlConfig &config, uint32_t level);
-    void GoalCallBack(const geometry_msgs::PoseStamped::ConstPtr& msg);
-    void PathCallBack(const nav_msgs::Path::ConstPtr& msg);
     void StateCallback(const mavros_msgs::State::ConstPtr& msg);
-    void VelocityCallback(const geometry_msgs::Twist::ConstPtr& vel);
 };
 
 #endif // OFFB_CONTROLLER_NODE_H

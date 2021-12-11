@@ -9,18 +9,10 @@ OffBControllerNode::OffBControllerNode(){
     //subcriber
     ros::Subscriber state_sub = core.subscribe<mavros_msgs::State>
         ("/mavros/state", 10, &OffBControllerNode::StateCallback, this);
-    ros::Subscriber vel_sub = core.subscribe<geometry_msgs::Twist>
-        ("/cmd_vel", 10, &OffBControllerNode::VelocityCallback, this);
-    ros::Subscriber path_sub = core.subscribe<nav_msgs::Path>
-        ("/move_base/TrajectoryPlannerROS/global_plan", 10, &OffBControllerNode::PathCallBack, this);
-    ros::Subscriber goal_sub = core.subscribe<geometry_msgs::PoseStamped>
-        ("/move_base_simple/goal", 10, &OffBControllerNode::GoalCallBack, this);
 
     //publisher
     ros::Publisher local_pos_pub = core.advertise<geometry_msgs::PoseStamped>
         ("/mavros/setpoint_position/local", 10);
-    ros::Publisher px4_velo_pub = core.advertise<geometry_msgs::TwistStamped>
-        ("/mavros/setpoint_velocity/cmd_vel", 10);
     ros::Rate frequency(10.0);
 
     Init_Parameters();
@@ -33,20 +25,19 @@ OffBControllerNode::OffBControllerNode(){
         frequency.sleep();
     }
 
-    pose.pose.position.x = 0;
-    pose.pose.position.y = 0;
-    pose.pose.position.z = 0.5;
+    setPosition.pose.position.x = 0;
+    setPosition.pose.position.y = 0;
+    setPosition.pose.position.z = 0;
 
     //send a few setpoints before starting
     for(int i = 10; ros::ok() && i > 0; --i){
-        local_pos_pub.publish(pose);
+        local_pos_pub.publish(setPosition);
         ros::spinOnce();
         frequency.sleep();
     }
 
 
-	ros::Time begin_time = ros::Time::now();
-    while(ros::ok() && ((ros::Time::now() - begin_time) < ros::Duration(40))){
+    while(ros::ok()){
             if( current_state.mode != "OFFBOARD" &&
                 (ros::Time::now() - last_request > ros::Duration(5.0))){
                 if( set_mode_client.call(offb_set_mode) &&
@@ -64,66 +55,19 @@ OffBControllerNode::OffBControllerNode(){
                     last_request = ros::Time::now();
                 }
 
-
-                if(check_callback == true){
-                  if(sizeof(global_path.poses) > 0){
-                      if(global_path.poses[count].pose.position.x == global_goal.pose.position.x &&
-                        global_path.poses[count].pose.position.y == global_goal.pose.position.y){
-                        ROS_INFO("Goal reached!!");
-                      } else if(check_goal == true){
-                        count = 0;
-                        check_goal = false;
-                      } else {
-                        pose.pose.position.x =  global_path.poses[count].pose.position.x;
-                        pose.pose.position.y =  global_path.poses[count].pose.position.y;
-                        count++;
-                      }
-                    }
-                  } else {
-                      pose.pose.position.z = 0.5;
-                  }
-
-                local_pos_pub.publish(pose);
+                local_pos_pub.publish(setPosition);
 
                 ros::spinOnce();
                 frequency.sleep();
             }
             
-            
-            
-			/*if((ros::Time::now() - begin_time) > ros::Duration(20000.0)) 
-			{	ROS_INFO("really?");
-				break;
-			}
-			else {ROS_INFO("Not yet");}*/
         }
         ROS_INFO("exit loop");
-}
-
-void OffBControllerNode::GoalCallBack(const geometry_msgs::PoseStamped::ConstPtr& msg){
-    ROS_INFO_ONCE("Position_controller_node got first goal message.");
-    global_goal = *msg;
-    check_goal = true;
-}
-
-void OffBControllerNode::PathCallBack(const nav_msgs::Path::ConstPtr& msg){
-
-    global_path = *msg;
-    check_callback = true;
 }
 
 void OffBControllerNode::StateCallback(const mavros_msgs::State::ConstPtr& msg){
     ROS_INFO_ONCE("Position_controller_node got first Command IMU state message.");
     current_state = *msg;
-}
-
-void OffBControllerNode::VelocityCallback(const geometry_msgs::Twist::ConstPtr& vel){
-    ROS_INFO_ONCE("offboard_controller_node got first Command Velocity message.");
-    cmd_velo = *vel;
-}
-
-void OffBControllerNode::DynamicCallback(bluejay_control::ControlConfig &config, uint32_t level){
-  ROS_INFO("Altitude request: %f", config.altitude);
 }
 
 void OffBControllerNode::Init_Parameters(){
@@ -133,10 +77,9 @@ void OffBControllerNode::Init_Parameters(){
     offb_set_mode.request.custom_mode = "OFFBOARD";
     arm_cmd.request.value = true;
 
-    pose.pose.position.x = 0;
-    pose.pose.position.y = 0;
-    pose.pose.position.z = 1;
-    f = boost::bind(&OffBControllerNode::DynamicCallback, this, _1, _2);
+    setPosition.pose.position.x = 0;
+    setPosition.pose.position.y = 0;
+    setPosition.pose.position.z = 0;
     server.setCallback(f);
 }
 
