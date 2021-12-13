@@ -24,7 +24,11 @@ find_package(catkin REQUIRED COMPONENTS
 
 ################################################
 ## Declare ROS messages, services and actions ##
-################################################
+################################################ 
+
+find_package(catkin REQUIRED genmsg actionlib_msgs actionlib)
+add_action_files(DIRECTORY resource/actions FILES navigation/Landing.action navigation/TakeOff.action navigation/Navigate.action)
+generate_messages(DEPENDENCIES actionlib_msgs)
 
 ## To declare and build messages, services or actions from within this
 ## package, follow these steps:
@@ -134,6 +138,9 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/bluejay_actionlibs_node.cpp)
+
+add_executable(bluejay_actionlibs src/TakeoffClient.cpp)
+target_link_libraries(bluejay_actionlibs ${catkin_LIBRARIES})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
