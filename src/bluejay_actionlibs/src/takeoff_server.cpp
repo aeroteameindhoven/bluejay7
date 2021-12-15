@@ -32,6 +32,8 @@ int main(int argc, char** argv)
 
     ros::init(argc, argv, "takeoff_server is up");
     ros::NodeHandle n;
+    Server server(n, "take_off", boost::bind(&execute, _1, &server), false);
+    server.start();
     ros::spin();
     return 0;
 }
