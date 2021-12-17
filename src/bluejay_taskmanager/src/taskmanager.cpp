@@ -6,11 +6,11 @@
 
 int main(int argc, char **argv)
 {
-/*
+  /*
     ros::init(argc, argv, "test_client");
     Client client("test_client", true); // true -> don't need ros::spin()??
     client.waitForServer();
-    bluejay_actionlibs::TakeOffGoal goal;
+    bluejay_msgs::TakeOffGoal goal;
     // Fill in goal here
 
     goal.altitudeGoal = 2;
@@ -19,7 +19,6 @@ int main(int argc, char **argv)
     client.sendGoal(goal);
     client.waitForResult(ros::Duration(5.0));
     if (client.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
-        ROS_INFO("Yay! test complete");
-*/
+        ROS_INFO("Yay! test complete");*/
     return 0;
 }

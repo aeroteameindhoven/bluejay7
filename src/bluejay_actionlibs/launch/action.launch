@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
 <launch>
-    <node name="bluejay_actionlibs" pkg="bluejay_actionlib" type="bluejay_actionlib" output="screen"/>
+    <node name="bluejay_actionlibs" pkg="bluejay_actionlibs" type="bluejay_actionlibs" output="screen"/>
 </launch>

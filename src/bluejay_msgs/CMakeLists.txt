@@ -7,9 +7,9 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 find_package(catkin REQUIRED genmsg actionlib_msgs actionlib message_generation)
-add_action_files(DIRECTORY actions FILES   navigation/Landing.action
-                                           navigation/TakeOff.action
-                                           navigation/Navigate.action)
+add_action_files(DIRECTORY action FILES   Landing.action
+                                          TakeOff.action
+                                          Navigate.action)
 generate_messages(DEPENDENCIES actionlib_msgs
                                std_msgs)
 
