@@ -6,7 +6,7 @@
 /build
 /devel
 /logs
-
+/.catkin_tools
 # general catkin workspace setting
 *workspace*
 
