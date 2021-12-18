@@ -22,6 +22,10 @@ include_directories(
 )
 
 add_executable(bluejay_actionlibs src/takeoff_server.cpp)
+add_executable(bluejay_actionlibs_landing src/landing_server.cpp)
+
+
 add_dependencies(bluejay_actionlibs ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(bluejay_actionlibs ${catkin_LIBRARIES})
+target_link_libraries(bluejay_actionlibs_landing ${catkin_LIBRARIES})
 
