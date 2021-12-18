@@ -18,7 +18,7 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
-  ${CATKIN_DEVEL_PREFIX}/include
+  ~/softwareai7/devel/include
 )
 
 add_executable(bluejay_actionlibs src/takeoff_server.cpp)

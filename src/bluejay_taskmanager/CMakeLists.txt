@@ -12,7 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 catkin_package(
-  INCLUDE_DIRS include
+  #INCLUDE_DIRS include
   LIBRARIES bluejay_taskmanager
   CATKIN_DEPENDS roscpp rospy std_msgs actionlib_msgs actionlib
 )
@@ -20,7 +20,7 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
-  ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_INCLUDE_DESTINATION}
+  ~/softwareai7/devel/include
 )
 
 add_executable(bluejay_taskmanager src/taskmanager.cpp)
