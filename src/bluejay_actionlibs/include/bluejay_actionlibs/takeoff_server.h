@@ -10,11 +10,11 @@ class TakeOffServer
 protected:
 
   ros::NodeHandle nh_;
-  actionlib::SimpleActionServer<actionlib_tutorials::FibonacciAction> as_; // NodeHandle instance must be created before this line. Otherwise strange error occurs.
+  actionlib::SimpleActionServer<bluejay_msgs::TakeOffAction> as_; // NodeHandle instance must be created before this line. Otherwise strange error occurs.
   std::string action_name_;
   // create messages that are used to published feedback/result
-//  TakeOffAction::FibonacciFeedback feedback_;
-//  actionlib_tutorials::FibonacciResult result_;
+  bluejay_msgs::TakeOffFeedback feedback_;
+  bluejay_msgs::TakeOffResult result_;
 
 public:
 
@@ -25,8 +25,13 @@ public:
     as_.start();
   }
 
-  void executeCB(const TakeOffAction::TakeOffGoalConstPtr &goal)
+  ~TakeOffServer(void)
+   {
+   }
+
+  void executeCB(const bluejay_msgs::TakeOffGoalConstPtr &goal)
   {
+    ROS_INFO("action is being executed");
     ros::Rate r(1);
     bool success = true;
 
@@ -35,6 +40,7 @@ public:
     if(success)
     {
     }
+    r.sleep();
   }
 
 

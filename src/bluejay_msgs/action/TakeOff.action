@@ -1,6 +1,6 @@
 # Define the goal
 float32 altitudeGoal
-float32 velocityTakeoff
+# float32 velocityTakeoff
 ---
 # Define the result
 bool successTakeoff
