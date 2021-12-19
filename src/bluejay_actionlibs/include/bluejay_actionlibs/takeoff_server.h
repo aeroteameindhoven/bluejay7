@@ -36,11 +36,25 @@ public:
     bool success = true;
 
     //do stuff here
+    feedback_.altitude = 0;
 
     if(success)
     {
+      feedback_.arm = true;
+
+      while (feedback_.altitude <= goal->altitudeGoal){
+      feedback_.altitude += 0.1;
+      as_.publishFeedback(feedback_);
+      r.sleep();
+      }
+
+      if (feedback_.altitude >= goal->altitudeGoal){
+        result_.successTakeoff = true;
+        ROS_INFO("TakeOff succeeded");
+        //set action state to succeeded
+        as_.setSucceeded(result_);
+      }
     }
-    r.sleep();
   }
 
 

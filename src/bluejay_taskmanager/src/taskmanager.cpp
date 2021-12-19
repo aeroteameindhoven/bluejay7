@@ -1,8 +1,7 @@
 #include <ros/ros.h>
 #include <actionlib/client/simple_action_client.h>
+#include <actionlib/client/terminal_state.h>
 #include <bluejay_msgs/TakeOffAction.h>
-
-//typedef actionlib::SimpleActionClient<bluejay_msgs::TakeOffAction> Client;
 
 int main(int argc, char **argv)
 {
@@ -20,20 +19,15 @@ int main(int argc, char **argv)
       bluejay_msgs::TakeOffGoal goal;
       goal.altitudeGoal = 1;
       ac.sendGoal(goal);
-      ROS_INFO("Goal sent");
 
+      bool finished_before_timeout = ac.waitForResult(ros::Duration(30.0));
 
-    /*Client client("test_client", true); // true -> don't need ros::spin()??
-    client.waitForServer();
-    bluejay_msgs::TakeOffGoal goal;
-    // Fill in goal here
+      if (finished_before_timeout){
+        actionlib::SimpleClientGoalState state = ac.getState();
+        ROS_INFO("Action finished: %s",state.toString().c_str());
+        }
+      else
+        ROS_INFO("Action did not finish before the time out.");
 
-    goal.altitudeGoal = 2;
-    goal.velocityTakeoff = 0.5;
-
-    client.sendGoal(goal);
-    client.waitForResult(ros::Duration(5.0));
-    if (client.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
-        ROS_INFO("Yay! test complete");*/
-    return 0;
+      return 0;
 }
