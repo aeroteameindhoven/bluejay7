@@ -1,13 +1,13 @@
 # Define the goal
-float32 set_pose_x
-float32 set_pose_y
-float32 set_pose_z
+float64 set_pose_x
+float64 set_pose_y
+float64 set_pose_z
 ---
 # Define the result
 bool success
 ---
 # Define a feedback message
 bool arm
-float32 pose_x
-float32 pose_y
-float32 pose_z
+float64 pose_x
+float64 pose_y
+float64 pose_z

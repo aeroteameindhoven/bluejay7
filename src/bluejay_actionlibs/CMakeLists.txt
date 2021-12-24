@@ -7,12 +7,17 @@ find_package(catkin REQUIRED COMPONENTS
     std_msgs
     actionlib_msgs
     actionlib
+    mavros
+    mavros_extras
+    mavros_msgs
+    mavlink
 )
 
 catkin_package(
     INCLUDE_DIRS include
     LIBRARIES bluejay_actionlibs
     CATKIN_DEPENDS roscpp rospy std_msgs actionlib_msgs actionlib
+    mavros mavros_extras mavros_msgs geometry_msgs
 )
 
 include_directories(

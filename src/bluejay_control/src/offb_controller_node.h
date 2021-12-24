@@ -12,6 +12,7 @@
 #include <nav_msgs/Path.h>
 
 #include <bluejay_control/ControlConfig.h>
+#include <bluejay_msgs/TakeOffAction.h>
 #include <dynamic_reconfigure/server.h>
 
 class OffBControllerNode{
@@ -23,18 +24,24 @@ private:
     ros::NodeHandle core;
     double current_time;
     double start_time;
-    bool check_callback;
-    bool check_goal;
-    int count;
+    bool check_callback_takeoff;
+    bool check_callback_navigate;
+    bool check_callback_landing;
+    //int count;
 
     mavros_msgs::State current_state;
     mavros_msgs::SetMode offb_set_mode;
     geometry_msgs::PoseStamped setPosition;
     mavros_msgs::CommandBool arm_cmd;
+    bluejay_msgs::TakeOffGoal goal;
 
     //subscriber
     ros::Subscriber state_sub;
     ros::Subscriber vel_sub;
+    ros::Subscriber takeoff_sub;
+    ros::Subscriber navigate_sub;
+    ros::Subscriber landing_sub;
+
 
     //publisher
     ros::Publisher local_pos_pub;
@@ -47,6 +54,9 @@ private:
     ros::ServiceClient set_mode_client;
 
     void StateCallback(const mavros_msgs::State::ConstPtr& msg);
+    void TakeOffCallback(const bluejay_msgs::TakeOffGoal::ConstPtr &goal);
+    void NavigateCallback(const geometry_msgs::PoseStamped::ConstPtr& msg); //change the message type
+    void LandingCallback(const geometry_msgs::PoseStamped::ConstPtr& msg);
 };
 
 #endif // OFFB_CONTROLLER_NODE_H

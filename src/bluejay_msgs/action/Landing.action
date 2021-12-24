@@ -1,8 +1,11 @@
 # Define the goal
-uint32 mode 
+uint32 mode
 ---
 # Define the result
-bool arm
+bool successLanding
 ---
 # Define a feedback message
-float32 altitude
+float64 Landing_x
+float64 Landing_y
+float64 Landing_z
+bool arm

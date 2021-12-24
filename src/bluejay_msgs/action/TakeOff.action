@@ -1,10 +1,15 @@
 # Define the goal
-float32 altitudeGoal
-# float32 velocityTakeoff
+#geometry_msg/Pose TakeoffGoal
+float64 TakeoffGoal_x
+float64 TakeoffGoal_y
+float64 TakeoffGoal_z
 ---
 # Define the result
 bool successTakeoff
 ---
 # Define a feedback message
 bool arm
-float32 altitude
+string mode
+float64 Takeoff_x
+float64 Takeoff_y
+float64 Takeoff_z

@@ -9,6 +9,8 @@ OffBControllerNode::OffBControllerNode(){
     //subcriber
     ros::Subscriber state_sub = core.subscribe<mavros_msgs::State>
         ("/mavros/state", 10, &OffBControllerNode::StateCallback, this);
+    ros::Subscriber takeoff_sub = core.subscribe<bluejay_msgs::TakeOffGoal>
+        ("/takeoffserver/TakeOffGoal_To_Controller", 10, &OffBControllerNode::TakeOffCallback, this);
 
     //publisher
     ros::Publisher local_pos_pub = core.advertise<geometry_msgs::PoseStamped>
@@ -36,7 +38,6 @@ OffBControllerNode::OffBControllerNode(){
         frequency.sleep();
     }
 
-
     while(ros::ok()){
             if( current_state.mode != "OFFBOARD" &&
                 (ros::Time::now() - last_request > ros::Duration(5.0))){
@@ -45,8 +46,8 @@ OffBControllerNode::OffBControllerNode(){
                     ROS_INFO("Offboard enabled");
                 }
                 last_request = ros::Time::now();
-            } else {
-                if( !current_state.armed &&
+            } else { //disarm before takeoff and after landing
+               if( !current_state.armed &&
                     (ros::Time::now() - last_request > ros::Duration(5.0))){
                     if( arming_client.call(arm_cmd) &&
                         arm_cmd.response.success){
@@ -55,10 +56,23 @@ OffBControllerNode::OffBControllerNode(){
                     last_request = ros::Time::now();
                 }
 
-                local_pos_pub.publish(setPosition);
+              if (check_callback_takeoff){
+                  setPosition.pose.position.x = goal.TakeoffGoal_x;
+                  setPosition.pose.position.y = goal.TakeoffGoal_y;
+                  setPosition.pose.position.z = goal.TakeoffGoal_z;
+                  ROS_INFO_ONCE("Set position set to TakeOffGoal: x = %f, y = %f, z = %f", goal.TakeoffGoal_x, goal.TakeoffGoal_y, goal.TakeoffGoal_z);
+              }
+              if (check_callback_navigate){
+                  //setPosition
+              }
+              if (check_callback_landing){
+                  //setPosition
+              }
 
-                ros::spinOnce();
-                frequency.sleep();
+              local_pos_pub.publish(setPosition);
+
+                  ros::spinOnce();
+                  frequency.sleep();
             }
             
         }
@@ -70,10 +84,18 @@ void OffBControllerNode::StateCallback(const mavros_msgs::State::ConstPtr& msg){
     current_state = *msg;
 }
 
+void OffBControllerNode::TakeOffCallback(const bluejay_msgs::TakeOffGoal::ConstPtr &msg){
+    ROS_INFO_ONCE("Position_controller_node got the first message from TakeOffGoal.");
+    goal = *msg;
+    check_callback_takeoff = true;
+}
+
 void OffBControllerNode::Init_Parameters(){
-    check_callback = false;
-    check_goal = false;
-    count = 0;
+    check_callback_takeoff = false;
+    check_callback_navigate = false;
+    check_callback_landing = false;
+
+    //count = 0;
     offb_set_mode.request.custom_mode = "OFFBOARD";
     arm_cmd.request.value = true;
 
@@ -86,7 +108,7 @@ void OffBControllerNode::Init_Parameters(){
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "offboard_node");
-    OffBControllerNode *OffBControl = new OffBControllerNode();
+    new OffBControllerNode();
     ros::spin();
 
     return 0;
