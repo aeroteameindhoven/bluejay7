@@ -2,11 +2,6 @@
 
 TakeOffClient::TakeOffClient(){
   ROS_INFO("TakeOffClient is active");
-  callback_Pose = false;
-
-  //create a subscriber to the position
-  ros::Subscriber pose_sub = nh_.subscribe<geometry_msgs::PoseStamped>
-      ("/mavros/local_pose", 10, &TakeOffClient::PoseCallback, this);
 
   // create the action client
   // true causes the client to spin its own thread
@@ -14,10 +9,10 @@ TakeOffClient::TakeOffClient(){
 
   ROS_INFO("Waiting for action server to start.");
   ac.waitForServer(); //will wait for infinite time
-  //while (!callback_Pose);
-  goal.TakeoffGoal_x = 0;
-  goal.TakeoffGoal_y = 0;
-  goal.TakeoffGoal_z = 1.5;
+  goal.TakeoffGoal_x = -1.0;
+  goal.TakeoffGoal_y = -1.0;
+  goal.TakeoffGoal_z = 3;
+
   ROS_INFO("Action server started");
   ac.sendGoal(goal);
 
@@ -33,15 +28,6 @@ TakeOffClient::TakeOffClient(){
     else
       ROS_INFO("Action did not finish before the time out.");
 
-}
-
-void TakeOffClient::PoseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg) {
-  ROS_INFO_ONCE("TakeOff_Client received the first position.");
-
-  goal.TakeoffGoal_x = msg->pose.position.x;
-  goal.TakeoffGoal_y = msg->pose.position.y;
-  goal.TakeoffGoal_z = 1.5;
-  callback_Pose = true;
 }
 
 int main(int argc, char **argv)

@@ -23,13 +23,16 @@ protected:
   bluejay_msgs::TakeOffResult result_;
   mavros_msgs::State current_state;
   geometry_msgs::Pose takeoff_pose;
+  bluejay_msgs::TakeOffGoal takeoff_goal;
 
   //subscriber
   ros::Subscriber state_sub;
   ros::Subscriber altitude_sub;
+  ros::Subscriber pose_sub;
 
   //publisher
   ros::Publisher local_pos_pub;
+  ros::Publisher goal_pub;
 
   //service
   //ros::ServiceClient arming_client;

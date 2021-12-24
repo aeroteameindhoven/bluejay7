@@ -7,9 +7,6 @@
 
     <node pkg="map_server" type="map_server" name="map_server" args ="$(arg map)"/>
 
-    <!-- Launch rqt_reconfigure -->
-    <node pkg="rqt_reconfigure" type="rqt_reconfigure" output="screen" name="rqt_reconfigure" />
-
     <!-- Launch static_transform_publisher -->
     <node pkg="tf" type="static_transform_publisher" name="laser_base_link" args="0 0 0 0 0 0 base_link_frd /rplidar_link 20"/>
   <!--  <node pkg="tf" type="static_transform_publisher" name="map_to_odom" args="0 0 0 0 0 0 map /odom 50"/>
@@ -17,4 +14,6 @@
 
     <!-- Launch rviz -->
     <node type="rviz" name="rviz" pkg="rviz" args="-d $(find bluejay_gazebo)/resource/bluejay_rviz.rviz" />
+
+    <include file="$(find bluejay_actionlibs)/launch/action.launch"></include>
 </launch>

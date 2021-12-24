@@ -9,15 +9,12 @@
 
 class TakeOffClient{
 private:
-  bool callback_Pose;
 
   ros::NodeHandle nh_;
-  geometry_msgs::PoseStamped pose_sub;
   bluejay_msgs::TakeOffGoal goal;
 
 public:
   TakeOffClient();
-  void PoseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg);
 };
 
 #endif // TASKMANAGER_H

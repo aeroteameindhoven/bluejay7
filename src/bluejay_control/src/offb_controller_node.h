@@ -33,7 +33,6 @@ private:
     mavros_msgs::SetMode offb_set_mode;
     geometry_msgs::PoseStamped setPosition;
     mavros_msgs::CommandBool arm_cmd;
-    bluejay_msgs::TakeOffGoal goal;
 
     //subscriber
     ros::Subscriber state_sub;
