@@ -26,11 +26,14 @@ include_directories(
   ~/softwareai7/devel/include
 )
 
-add_executable(bluejay_actionlibs src/takeoff_server.cpp)
+add_executable(bluejay_actionlibs_takeoff src/takeoff_server.cpp)
 add_executable(bluejay_actionlibs_landing src/landing_server.cpp)
+add_executable(bluejay_actionlibs_navigate src/navigate_server.cpp)
 
+add_dependencies(bluejay_actionlibs_takeoff ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(bluejay_actionlibs_landing ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(bluejay_actionlibs_navigate ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-add_dependencies(bluejay_actionlibs ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(bluejay_actionlibs ${catkin_LIBRARIES})
+target_link_libraries(bluejay_actionlibs_takeoff ${catkin_LIBRARIES})
 target_link_libraries(bluejay_actionlibs_landing ${catkin_LIBRARIES})
-
+target_link_libraries(bluejay_actionlibs_navigate ${catkin_LIBRARIES})

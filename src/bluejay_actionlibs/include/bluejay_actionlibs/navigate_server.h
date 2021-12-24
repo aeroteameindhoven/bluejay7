@@ -1,29 +1,27 @@
-#ifndef TAKEOFF_SERVER_H
-#define TAKEOFF_SERVER_H
+#ifndef NAVIGATE_SERVER_H
+#define NAVIGATE_SERVER_H
 
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>
-#include <bluejay_msgs/TakeOffAction.h>
+#include <bluejay_msgs/NavigateAction.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <mavros_msgs/CommandBool.h>
 #include <mavros_msgs/SetMode.h>
 #include <mavros_msgs/State.h>
 #include <mavros_msgs/Altitude.h>
 
-class TakeOffServer
+class NavigateServer
 {
 protected:
   bool callback_Pose;
   bool callback_State;
   ros::NodeHandle nh_;
-  actionlib::SimpleActionServer<bluejay_msgs::TakeOffAction> as_; // NodeHandle instance must be created before this line. Otherwise strange error occurs.
+  actionlib::SimpleActionServer<bluejay_msgs::NavigateAction> as_; // NodeHandle instance must be created before this line. Otherwise strange error occurs.
   std::string action_name_;
   // create messages that are used to published feedback/result
-  bluejay_msgs::TakeOffFeedback feedback_;
-  bluejay_msgs::TakeOffResult result_;
+  bluejay_msgs::NavigateFeedback feedback_;
+  bluejay_msgs::NavigateResult result_;
   mavros_msgs::State current_state;
-  geometry_msgs::Pose takeoff_pose;
-  bluejay_msgs::TakeOffGoal takeoff_goal;
 
   //subscriber
   ros::Subscriber state_sub;
@@ -40,12 +38,12 @@ protected:
   void Init_Parameters();
 
 public:
-  TakeOffServer(std::string name);
-  ~TakeOffServer(void);
+  NavigateServer(std::string name);
+  ~NavigateServer(void);
 
-  void executeCB(const bluejay_msgs::TakeOffGoalConstPtr &goal);
+  void executeCB(const bluejay_msgs::NavigateGoalConstPtr &goal);
 
 };
 
 
-#endif // TAKEOFF_SERVER_H
+#endif // NAVIGATE_SERVER_H

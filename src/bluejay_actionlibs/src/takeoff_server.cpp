@@ -34,7 +34,7 @@ TakeOffServer::~TakeOffServer(void){
 
 void TakeOffServer::executeCB(const bluejay_msgs::TakeOffGoalConstPtr &goal)
 {
-  ROS_INFO("action is being executed");
+  ROS_INFO("TakeOff action is being executed");
 
   ros::Rate frequency(10.0);
   takeoff_goal.TakeoffGoal_x = takeoff_pose.position.x;
@@ -44,7 +44,7 @@ void TakeOffServer::executeCB(const bluejay_msgs::TakeOffGoalConstPtr &goal)
   goal_pub.publish(takeoff_goal);
   while(ros::ok() && !result_.successTakeoff){
     if (callback_Pose && callback_State) as_.publishFeedback(feedback_);
-    if (feedback_.Takeoff_z >= goal->TakeoffGoal_z - 0.1){  //drone reaches the goal
+    if (abs(goal->TakeoffGoal_z - feedback_.Takeoff_z) <= 0.1){  //drone reaches the goal
                 result_.successTakeoff = true;
                 ROS_INFO("TakeOff succeeded");
                 as_.setSucceeded(result_);        //set action state to succeeded

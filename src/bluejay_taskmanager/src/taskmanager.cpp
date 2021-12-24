@@ -28,11 +28,38 @@ TakeOffClient::TakeOffClient(){
     else
       ROS_INFO("Action did not finish before the time out.");
 
+    //----------------------------------------------------------
+
+    if (finished_before_timeout){
+    actionlib::SimpleActionClient<bluejay_msgs::NavigateAction> ac_nav("navigate_server", true);
+
+    ROS_INFO("Waiting for navigation action server to start.");
+    ac_nav.waitForServer(); //will wait for infinite time
+    goal_nav.set_pose_x = 2;
+    goal_nav.set_pose_y = 2;
+    goal_nav.set_pose_z = 3;
+
+    ROS_INFO("Nav Action server started");
+    ac_nav.sendGoal(goal_nav);
+
+    ROS_INFO("Nav Action server started, sending goal.");
+      // send a goal to the action
+
+      bool finished_before_timeout_nav = ac_nav.waitForResult(ros::Duration(120.0));
+
+      if (finished_before_timeout_nav){
+        actionlib::SimpleClientGoalState state_nav = ac_nav.getState();
+        ROS_INFO("Nav Action finished: %s",state_nav.toString().c_str());
+        }
+      else
+        ROS_INFO("Nav Action did not finish before the time out.");
+      }
+
 }
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "offboard_node");
+    ros::init(argc, argv, "taskmanager_node");
     TakeOffClient();
     ros::spin();
     return 0;

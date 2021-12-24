@@ -11,6 +11,10 @@ OffBControllerNode::OffBControllerNode(){
         ("/mavros/state", 10, &OffBControllerNode::StateCallback, this);
     takeoff_sub = core.subscribe<bluejay_msgs::TakeOffGoal>
         ("/takeoffserver/TakeOffGoal_To_Controller", 10, &OffBControllerNode::TakeOffCallback, this);
+    navigate_sub = core.subscribe<bluejay_msgs::NavigateGoal>
+        ("/navigateserver/NavigateGoal_To_Controller", 10, &OffBControllerNode::NavigateCallback, this);
+    //landing_sub = core.subscribe<bluejay_msgs::LandingGoal>
+      //  ("/landingserver/LandingGoal_To_Controller", 10, &OffBControllerNode::LandingCallback, this);
 
     //publisher
     local_pos_pub = core.advertise<geometry_msgs::PoseStamped>
@@ -79,12 +83,14 @@ void OffBControllerNode::TakeOffCallback(const bluejay_msgs::TakeOffGoal::ConstP
     ROS_INFO_ONCE("Position_controller_node got the first message from TakeOffGoal: x = %f, y = %f, z = %f", msg->TakeoffGoal_x, msg->TakeoffGoal_y, msg->TakeoffGoal_z);
 }
 
-void OffBControllerNode::Init_Parameters(){
-    check_callback_takeoff = false;
-    check_callback_navigate = false;
-    check_callback_landing = false;
+void OffBControllerNode::NavigateCallback(const bluejay_msgs::NavigateGoal::ConstPtr &msg){
+    setPosition.pose.position.x = msg->set_pose_x;
+    setPosition.pose.position.y = msg->set_pose_y;
+    setPosition.pose.position.z = msg->set_pose_z;
+    ROS_INFO_ONCE("Position_controller_node got the first message from NavigateGoal: x = %f, y = %f, z = %f", msg->set_pose_x, msg->set_pose_y, msg->set_pose_z);
+}
 
-    //count = 0;
+void OffBControllerNode::Init_Parameters(){
     offb_set_mode.request.custom_mode = "OFFBOARD";
     arm_cmd.request.value = true;
 

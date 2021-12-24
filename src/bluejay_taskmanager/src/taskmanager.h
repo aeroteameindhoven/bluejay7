@@ -6,12 +6,15 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Twist.h>
 #include <bluejay_msgs/TakeOffAction.h>
+#include <bluejay_msgs/NavigateAction.h>
+
 
 class TakeOffClient{
 private:
 
   ros::NodeHandle nh_;
   bluejay_msgs::TakeOffGoal goal;
+  bluejay_msgs::NavigateGoal goal_nav;
 
 public:
   TakeOffClient();
