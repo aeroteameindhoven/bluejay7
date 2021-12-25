@@ -8,7 +8,7 @@
 #include <mavros_msgs/CommandBool.h>
 #include <mavros_msgs/SetMode.h>
 #include <mavros_msgs/State.h>
-#include <mavros_msgs/Altitude.h>
+
 
 class TakeOffServer
 {

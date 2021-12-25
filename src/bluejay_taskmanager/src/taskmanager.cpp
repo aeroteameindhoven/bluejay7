@@ -35,8 +35,8 @@ TakeOffClient::TakeOffClient(){
 
     ROS_INFO("Waiting for navigation action server to start.");
     ac_nav.waitForServer(); //will wait for infinite time
-    goal_nav.set_pose_x = 2;
-    goal_nav.set_pose_y = 2;
+    goal_nav.set_pose_x = 3;
+    goal_nav.set_pose_y = 3;
     goal_nav.set_pose_z = 3;
 
     ROS_INFO("Nav Action server started");
@@ -53,8 +53,33 @@ TakeOffClient::TakeOffClient(){
         }
       else
         ROS_INFO("Nav Action did not finish before the time out.");
-      }
 
+    //-----------------------------------------------------------------------
+    if (finished_before_timeout_nav){
+    actionlib::SimpleActionClient<bluejay_msgs::LandingAction> ac_land("landing_server", true);
+
+    ROS_INFO("Waiting for landing action server to start.");
+    ac_land.waitForServer(); //will wait for infinite time
+    goal_land.LandingGoal_x = -1;
+    goal_land.LandingGoal_y = -1;
+    goal_land.LandingGoal_z = 0;
+
+    ROS_INFO("land Action server started");
+    ac_land.sendGoal(goal_land);
+
+    ROS_INFO("land Action server started, sending goal.");
+      // send a goal to the action
+
+      bool finished_before_timeout_land = ac_land.waitForResult(ros::Duration(120.0));
+
+      if (finished_before_timeout_land){
+        actionlib::SimpleClientGoalState state_land = ac_land.getState();
+        ROS_INFO("land Action finished: %s",state_land.toString().c_str());
+        }
+      else
+        ROS_INFO("land Action did not finish before the time out.");
+      }
+}
 }
 
 int main(int argc, char **argv)
