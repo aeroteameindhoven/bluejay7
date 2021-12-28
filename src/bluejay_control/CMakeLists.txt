@@ -31,6 +31,7 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ~/softwareai7/devel/include
 )
 
 add_executable(bluejay_control src/offb_controller_node.cpp)

@@ -16,7 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 catkin_package(
-  #INCLUDE_DIRS include
+  INCLUDE_DIRS include
   LIBRARIES bluejay_taskmanager
   CATKIN_DEPENDS roscpp rospy std_msgs actionlib_msgs actionlib mavros geometry_msgs mavros_extras mavros_msgs
 )
@@ -28,7 +28,12 @@ include_directories(
 )
 
 add_executable(bluejay_taskmanager src/taskmanager.cpp)
+add_executable(bluejay_taskmanager_node src/taskmanager_node.cpp)
+
 add_dependencies(bluejay_taskmanager ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(bluejay_taskmanager_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
 target_link_libraries(bluejay_taskmanager ${catkin_LIBRARIES})
+target_link_libraries(bluejay_taskmanager_node ${catkin_LIBRARIES})
 
 

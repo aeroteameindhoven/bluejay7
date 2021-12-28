@@ -1,5 +1,6 @@
 #ifndef TASKMANAGER_H
 #define TASKMANAGER_H
+
 #include <ros/ros.h>
 #include <actionlib/client/simple_action_client.h>
 #include <actionlib/client/terminal_state.h>
@@ -8,7 +9,6 @@
 #include <bluejay_msgs/TakeOffAction.h>
 #include <bluejay_msgs/NavigateAction.h>
 #include <bluejay_msgs/LandingAction.h>
-
 
 class TakeOffClient{
 private:
@@ -23,3 +23,4 @@ public:
 };
 
 #endif // TASKMANAGER_H
+
