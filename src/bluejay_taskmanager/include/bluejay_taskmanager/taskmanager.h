@@ -13,10 +13,10 @@
 class TakeOffClient{
 private:
 
-  ros::NodeHandle nh_;
-  bluejay_msgs::TakeOffGoal goal;
-  bluejay_msgs::NavigateGoal goal_nav;
-  bluejay_msgs::LandingGoal goal_land;
+    ros::NodeHandle nh_;
+    bluejay_msgs::TakeOffGoal goal;
+    bluejay_msgs::NavigateGoal goal_nav;
+    bluejay_msgs::LandingGoal goal_land;
 
 public:
   TakeOffClient();

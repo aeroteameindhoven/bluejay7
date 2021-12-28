@@ -7,12 +7,11 @@
 class actionClient
 {
 public:
-    virtual ~actionClient();
+    virtual ~actionClient(){}
     virtual bool executed() = 0;
     virtual std::string toString() = 0;
-
-protected:
-    std::string name;
+private:
+    std::string clientName;
     int id;
 };
 #endif // ACTIONCLIENT_H

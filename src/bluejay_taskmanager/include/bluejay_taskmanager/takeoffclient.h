@@ -7,8 +7,8 @@
 class takeoffClient : public actionClient{
 public:
     takeoffClient();
-    bool executed();
-    std::string toString();
+    virtual bool executed();
+    virtual std::string toString();
 
 private:
 

@@ -1,3 +1,3 @@
 <launch>
-    <node name="bluejay_taskmanager" pkg="bluejay_taskmanager" type="bluejay_taskmanager" output="screen"/>
+    <node name="bluejay_taskmanager_node" pkg="bluejay_taskmanager" type="bluejay_taskmanager_node" output="screen"/>
 </launch>

@@ -28,7 +28,10 @@ include_directories(
 )
 
 add_executable(bluejay_taskmanager src/taskmanager.cpp)
-add_executable(bluejay_taskmanager_node src/taskmanager_node.cpp)
+add_executable(bluejay_taskmanager_node src/taskmanager_node.cpp
+                                        src/takeoffclient.cpp
+                                        src/task.cpp
+                                        src/landingclient.cpp)
 
 add_dependencies(bluejay_taskmanager ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(bluejay_taskmanager_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
