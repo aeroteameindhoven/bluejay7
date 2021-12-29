@@ -4,14 +4,19 @@ landingClient::landingClient(){
 
 }
 
-landingClient::landingClient(bluejay_msgs::LandingGoal _goal){
-    goal = _goal;
+landingClient::landingClient(int _delayTime){
+    clientName = "landing";
+    delayTime = _delayTime;
 }
 
-bool landingClient::executed(){
-    ROS_INFO("LandingClient is active");
-    actionlib::SimpleActionClient<bluejay_msgs::LandingAction> ac("landing_server", true);
+landingClient::landingClient(int _delayTime, bluejay_msgs::LandingGoal _goal){
+    clientName = "landing";
+    goal = _goal;
+    delayTime = _delayTime;
+}
 
+bool landingClient::execute(){
+    actionlib::SimpleActionClient<bluejay_msgs::LandingAction> ac("landing_server", true);
     ROS_INFO("Waiting for landing action server to start.");
     ac.waitForServer(); //will wait for infinite time
     goal.LandingGoal_x = -1;
@@ -20,7 +25,7 @@ bool landingClient::executed(){
 
     ROS_INFO("Landing Action server started, sending goal.");
     ac.sendGoal(goal);
-      // send a goal to the action
+    // send a goal to the action
 
     bool finished_before_timeout_land = ac.waitForResult(ros::Duration(120.0));
 

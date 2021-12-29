@@ -41,7 +41,7 @@ protected:
 
 public:
   LandingServer(std::string name);
-  ~LandingServer(void);
+  ~LandingServer();
 
   void executeCB(const bluejay_msgs::LandingGoalConstPtr &goal);
 

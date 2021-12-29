@@ -29,7 +29,7 @@ LandingServer::LandingServer(std::string name) :
   as_.start();
 }
 
-LandingServer::~LandingServer(void){
+LandingServer::~LandingServer(){
 }
 
 void LandingServer::executeCB(const bluejay_msgs::LandingGoalConstPtr &goal)

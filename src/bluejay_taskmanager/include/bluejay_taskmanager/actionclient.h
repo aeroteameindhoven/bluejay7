@@ -10,10 +10,11 @@ class actionClient
 {
 public:
     virtual ~actionClient(){}
-    virtual bool executed() = 0;
+    virtual bool execute() = 0;
     virtual std::string toString() = 0;
-private:
+protected:
     std::string clientName;
     int id;
+    int delayTime;
 };
 #endif // ACTIONCLIENT_H

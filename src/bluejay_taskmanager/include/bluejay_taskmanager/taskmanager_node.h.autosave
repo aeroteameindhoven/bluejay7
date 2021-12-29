@@ -15,7 +15,6 @@ public:
 private:
     std::vector<Task> allTask;
     ros::NodeHandle nh_;
-    void InitParameter();
 };
 
 #endif // TASKMANAGER_NODE_H

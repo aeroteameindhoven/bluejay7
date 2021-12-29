@@ -13,11 +13,13 @@
 class TakeOffServer
 {
 protected:
+  bool success;
   bool callback_Pose;
   bool callback_State;
   ros::NodeHandle nh_;
   actionlib::SimpleActionServer<bluejay_msgs::TakeOffAction> as_; // NodeHandle instance must be created before this line. Otherwise strange error occurs.
   std::string action_name_;
+
   // create messages that are used to published feedback/result
   bluejay_msgs::TakeOffFeedback feedback_;
   bluejay_msgs::TakeOffResult result_;
