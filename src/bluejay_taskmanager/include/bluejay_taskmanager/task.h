@@ -2,12 +2,14 @@
 #define TASK_H
 
 #include "takeoffclient.h"
+#include "landingclient.h"
+
 #include <vector>
 
 class Task{
 public:
     Task();
-    void addAction(actionClient *client);
+    bool addAction(actionClient *client);
     bool executeTask();
 private:
     std::vector<actionClient*> allClients;

@@ -43,6 +43,12 @@ void TakeOffServer::executeCB(const bluejay_msgs::TakeOffGoalConstPtr &goal)
 
   goal_pub.publish(takeoff_goal);
   while(ros::ok() && !result_.successTakeoff){
+    if (as_.isPreemptRequested()){
+              ROS_INFO("%s: Preempted", action_name_.c_str());
+              // set the action state to preempted
+              as_.setPreempted();
+              break;
+    }
     if (callback_Pose && callback_State) as_.publishFeedback(feedback_);
     if (abs(goal->TakeoffGoal_z - feedback_.Takeoff_z) <= 0.1){  //drone reaches the goal
                 result_.successTakeoff = true;
@@ -78,6 +84,7 @@ void TakeOffServer::PoseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg
 void TakeOffServer::Init_Parameters(){
   callback_Pose = false;
   callback_State = false;
+  result_.successTakeoff = false;
 }
 
 int main(int argc, char** argv)

@@ -12,6 +12,11 @@ public:
     TaskmanagerNode();
 private:
     ros::NodeHandle nh_;
+
+    bool testsuccess1;
+    bool testsuccess2;
+
+    void InitParameter();
 };
 
 #endif // TASKMANAGER_NODE_H

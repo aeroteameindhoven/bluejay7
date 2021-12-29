@@ -44,6 +44,12 @@ void LandingServer::executeCB(const bluejay_msgs::LandingGoalConstPtr &goal)
 
   goal_pub.publish(landing_goal);
   while(ros::ok() && !result_.successLanding){
+    if (as_.isPreemptRequested()){
+                ROS_INFO("%s: Preempted", action_name_.c_str());
+                // set the action state to preempted
+                as_.setPreempted();
+                break;
+    }
     if (callback_Pose && callback_State) as_.publishFeedback(feedback_);
     if (feedback_.Landing_z - goal->LandingGoal_z <= 0.1){  //drone reaches the goal
                 result_.successLanding = true;
