@@ -84,10 +84,7 @@ void TakeOffServer::executeCB(const bluejay_msgs::TakeOffGoalConstPtr &goal){
     takeoff_goal.TakeoffGoal_z = goal->TakeoffGoal_z;
     goal_pub.publish(takeoff_goal);
 
-    ROS_INFO("still fine here");
     while(ros::ok()){
-        ROS_INFO("get to go here");
-
         if (as_.isPreemptRequested()){
             ROS_INFO("%s: Preempted", action_name_.c_str());
             // set the action state to preempted

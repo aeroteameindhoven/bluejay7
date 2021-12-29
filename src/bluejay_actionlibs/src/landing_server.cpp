@@ -43,7 +43,7 @@ void LandingServer::executeCB(const bluejay_msgs::LandingGoalConstPtr &goal)
   //landing_goal.mode = "AUTO.LAND";
 
   goal_pub.publish(landing_goal);
-  while(ros::ok() && !result_.successLanding){
+  while(ros::ok()){
     if (as_.isPreemptRequested()){
                 ROS_INFO("%s: Preempted", action_name_.c_str());
                 // set the action state to preempted
@@ -55,9 +55,9 @@ void LandingServer::executeCB(const bluejay_msgs::LandingGoalConstPtr &goal)
                 result_.successLanding = true;
                 ROS_INFO("Landing succeeded");
                 as_.setSucceeded(result_);        //set action state to succeeded
+                break;
     }
 
-    ros::spinOnce();
     frequency.sleep();
   }
 }
@@ -84,6 +84,7 @@ void LandingServer::PoseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg
 void LandingServer::Init_Parameters(){
   callback_Pose = false;
   callback_State = false;
+  result_.successLanding = false;
 }
 
 int main(int argc, char** argv)
