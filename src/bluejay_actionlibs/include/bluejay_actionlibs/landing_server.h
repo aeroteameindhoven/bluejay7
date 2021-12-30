@@ -24,6 +24,8 @@ protected:
   mavros_msgs::State current_state;
   geometry_msgs::Pose landing_pose;
   bluejay_msgs::LandingGoal landing_goal;
+  geometry_msgs::PoseStamped global_goal;
+
 
   //subscriber
   ros::Subscriber state_sub;

@@ -15,46 +15,59 @@
           ------------------------
 */
 
-NavigateServer::NavigateServer(std::string name) :
-  as_(nh_, name, boost::bind(&NavigateServer::executeCB, this, _1), false),
-  action_name_(name)
-{
-  Init_Parameters();
-  pose_sub = nh_.subscribe<geometry_msgs::PoseStamped>
-      ("/mavros/local_position/pose", 10, &NavigateServer::PoseCallback, this);
-
+NavigateServer::NavigateServer(){
+  ROS_INFO("Nav server is running");
   //Publisher bypasses the goal to OffBoardcontrol node
-  goal_pub = nh_.advertise<bluejay_msgs::NavigateGoal>
+  goal_pub = nh_.advertise<geometry_msgs::PoseStamped>
       ("/navigateserver/NavigateGoal_To_Controller", 10);
-  as_.start();
+
+  path_sub = nh_.subscribe<nav_msgs::Path>
+      ("/move_base/TrajectoryPlannerROS/global_plan", 10, &NavigateServer::PathCallBack, this);
+  goal_sub = nh_.subscribe<geometry_msgs::PoseStamped>
+      ("/move_base_simple/goal", 10, &NavigateServer::GoalCallBack, this);
+
+  Init_Parameters();
+  ros::Rate frequency(10.0);
+
+  while (ros::ok()){
+      if (callback_path == true){
+          if(sizeof(global_path.poses) > 0){
+              if(abs(global_path.poses[count].pose.position.x - global_goal.pose.position.x) < 0.1 &&
+                abs(global_path.poses[count].pose.position.y - global_goal.pose.position.y) < 0.1){
+                ROS_INFO("Goal reached!!");
+              }
+              else {
+                  local_goal.pose.position.x = global_path.poses[count].pose.position.x;
+                  local_goal.pose.position.y = global_path.poses[count].pose.position.y;
+                  ROS_INFO("Next local goal: x = %f, y = %f", local_goal.pose.position.x, local_goal.pose.position.y);
+                  goal_pub.publish(local_goal);
+                  count++;
+              }
+           }
+      }
+      ros::spinOnce();
+      frequency.sleep();
+  }
 }
 
 NavigateServer::~NavigateServer(void){
 }
 
-void NavigateServer::executeCB(const bluejay_msgs::NavigateGoalConstPtr &goal)
-{
-  ROS_INFO("Navigate action is being executed");
 
-  ros::Rate frequency(10.0);
-
-  goal_pub.publish(goal);
-  while(ros::ok() && !result_.successNavigate){
-    if (callback_Pose && callback_State) as_.publishFeedback(feedback_);
-    if (abs(goal->set_pose_x - feedback_.pose_x) <= 0.1 &&
-        abs(goal->set_pose_y - feedback_.pose_y) <= 0.1 &&
-        abs(goal->set_pose_z - feedback_.pose_z) <= 0.1){  //drone reaches the goal
-                result_.successNavigate = true;
-                ROS_INFO("Navigate succeeded");
-                as_.setSucceeded(result_);        //set action state to succeeded
-    }
-
-    ros::spinOnce();
-    frequency.sleep();
-  }
-}
 
 //callback functions
+
+void NavigateServer::GoalCallBack(const geometry_msgs::PoseStamped::ConstPtr& msg){
+    ROS_INFO_ONCE("Position_controller_node got first goal message: x = %f, y = %f", msg->pose.position.x, msg->pose.position.y);
+    global_goal = *msg;
+}
+
+void NavigateServer::PathCallBack(const nav_msgs::Path::ConstPtr& msg){
+    ROS_INFO("Path updated");
+    global_path = *msg;
+    callback_path = true;
+}
+
 void NavigateServer::StateCallback(const mavros_msgs::State::ConstPtr& msg){
   ROS_INFO_ONCE("Navigate_Server got first Command IMU state message.");
   feedback_.arm = msg -> armed;
@@ -71,15 +84,18 @@ void NavigateServer::PoseCallback(const geometry_msgs::PoseStamped::ConstPtr& ms
   callback_Pose = true;
 }
 
+
 void NavigateServer::Init_Parameters(){
+  count = 0;
   callback_Pose = false;
   callback_State = false;
+  callback_path = false;
 }
 
 int main(int argc, char** argv)
 {
    ros::init(argc, argv, "navigate_server");
-   NavigateServer navigate_server("navigate_server");
+   new NavigateServer;
    ros::spin();
    return 0;
 }

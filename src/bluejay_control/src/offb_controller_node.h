@@ -55,7 +55,7 @@ private:
 
     void StateCallback(const mavros_msgs::State::ConstPtr& msg);
     void TakeOffCallback(const bluejay_msgs::TakeOffGoal::ConstPtr& msg);
-    void NavigateCallback(const bluejay_msgs::NavigateGoal::ConstPtr& msg); //change the message type
+    void NavigateCallback(const geometry_msgs::PoseStamped::ConstPtr& msg); //change the message type
     void LandingCallback(const bluejay_msgs::LandingGoal::ConstPtr& msg);
 };
 

@@ -3,11 +3,11 @@
 TaskmanagerNode::TaskmanagerNode(){
     Task test;
     takeoffClient *fakeClient = new takeoffClient();
-    landingClient *fakeClient2 = new landingClient();
-    takeoffClient *fakeClient3 = new takeoffClient(10);
+    //landingClient *fakeClient2 = new landingClient();
+    //takeoffClient *fakeClient3 = new takeoffClient(10);
     test.addAction(fakeClient);
-    test.addAction(fakeClient2);
-    test.addAction(fakeClient3);
+    //test.addAction(fakeClient2);
+    //test.addAction(fakeClient3);
     test.executeTask();
 }
 

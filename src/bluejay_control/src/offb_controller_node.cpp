@@ -11,7 +11,7 @@ OffBControllerNode::OffBControllerNode(){
         ("/mavros/state", 10, &OffBControllerNode::StateCallback, this);
     takeoff_sub = core.subscribe<bluejay_msgs::TakeOffGoal>
         ("/takeoffserver/TakeOffGoal_To_Controller", 10, &OffBControllerNode::TakeOffCallback, this);
-    navigate_sub = core.subscribe<bluejay_msgs::NavigateGoal>
+    navigate_sub = core.subscribe<geometry_msgs::PoseStamped>
         ("/navigateserver/NavigateGoal_To_Controller", 10, &OffBControllerNode::NavigateCallback, this);
     landing_sub = core.subscribe<bluejay_msgs::LandingGoal>
         ("/landingserver/LandingGoal_To_Controller", 10, &OffBControllerNode::LandingCallback, this);
@@ -83,12 +83,11 @@ void OffBControllerNode::TakeOffCallback(const bluejay_msgs::TakeOffGoal::ConstP
     ROS_INFO_ONCE("Position_controller_node got the first message from TakeOffGoal: x = %f, y = %f, z = %f", msg->TakeoffGoal_x, msg->TakeoffGoal_y, msg->TakeoffGoal_z);
 }
 
-void OffBControllerNode::NavigateCallback(const bluejay_msgs::NavigateGoal::ConstPtr &msg){
-    setPosition.pose.position.x = msg->set_pose_x;
-    setPosition.pose.position.y = msg->set_pose_y;
-    setPosition.pose.position.z = msg->set_pose_z;
+void OffBControllerNode::NavigateCallback(const geometry_msgs::PoseStamped::ConstPtr &msg){
+    setPosition.pose.position.x = msg->pose.position.x;
+    setPosition.pose.position.y = msg->pose.position.y;
 
-    ROS_INFO_ONCE("Position_controller_node got the first message from NavigateGoal: x = %f, y = %f, z = %f", msg->set_pose_x, msg->set_pose_y, msg->set_pose_z);
+    ROS_INFO_ONCE("Position_controller_node got the first message from NavigateGoal: x = %f, y = %f, z = %f", msg->pose.position.x, msg->pose.position.y, setPosition.pose.position.z);
 }
 
 void OffBControllerNode::LandingCallback(const bluejay_msgs::LandingGoal::ConstPtr &msg){
