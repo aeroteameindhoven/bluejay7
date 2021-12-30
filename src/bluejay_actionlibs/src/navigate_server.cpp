@@ -32,8 +32,8 @@ NavigateServer::NavigateServer(){
   while (ros::ok()){
       if (callback_path == true){
           if(sizeof(global_path.poses) > 0){
-              if(abs(global_path.poses[count].pose.position.x - global_goal.pose.position.x) < 0.1 &&
-                abs(global_path.poses[count].pose.position.y - global_goal.pose.position.y) < 0.1){
+              if(global_path.poses[count].pose.position.x == global_goal.pose.position.x &&
+                global_path.poses[count].pose.position.y == global_goal.pose.position.y){
                 ROS_INFO("Goal reached!!");
               }
               else {
