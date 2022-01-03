@@ -43,22 +43,35 @@ OffBControllerNode::OffBControllerNode(){
     }
 
     while(ros::ok()){
-            if( current_state.mode != "OFFBOARD" &&
+            if( current_state.mode != set_mode.request.custom_mode &&
                 (ros::Time::now() - last_request > ros::Duration(5.0))){
-                if( set_mode_client.call(offb_set_mode) &&
-                    offb_set_mode.response.mode_sent){
-                    ROS_INFO("Offboard enabled");
+
+                if( set_mode_client.call(set_mode) &&
+                    set_mode.response.mode_sent){
+                    ROS_INFO("%s mode enabled", set_mode.request.custom_mode.c_str());
                 }
                 last_request = ros::Time::now();
-            } else { //disarm before takeoff and after landing
-               if( !current_state.armed &&
+
+            } else {
+               if( current_state.armed != arm_cmd.request.value &&
                     (ros::Time::now() - last_request > ros::Duration(5.0))){
-                    if( arming_client.call(arm_cmd) &&
+
+                   if (arm_before){
+                       arm_cmd.request.value = false;   //PX4 disarms automatically after landing by AUTO.LAND
+                       ROS_INFO("Vehicle auto-disarmed after landing");
+                   }
+                   else if( arming_client.call(arm_cmd) &&
                         arm_cmd.response.success){
-                        ROS_INFO("Vehicle armed");
+
+                        if (arm_cmd.request.value) ROS_INFO("Vehicle armed");
+                        else ROS_INFO("Vehicle disarmed");
+
                     }
                     last_request = ros::Time::now();
+
                 }
+               mode_before = current_state.mode;
+               arm_before = current_state.armed;
 
                   local_pos_pub.publish(setPosition);
 
@@ -80,6 +93,9 @@ void OffBControllerNode::TakeOffCallback(const bluejay_msgs::TakeOffGoal::ConstP
     setPosition.pose.position.x = msg->TakeoffGoal_x;
     setPosition.pose.position.y = msg->TakeoffGoal_y;
     setPosition.pose.position.z = msg->TakeoffGoal_z;
+    set_mode.request.custom_mode = msg->mode;
+    arm_cmd.request.value = true;
+
     ROS_INFO_ONCE("Position_controller_node got the first message from TakeOffGoal: x = %f, y = %f, z = %f", msg->TakeoffGoal_x, msg->TakeoffGoal_y, msg->TakeoffGoal_z);
 }
 
@@ -94,19 +110,19 @@ void OffBControllerNode::LandingCallback(const bluejay_msgs::LandingGoal::ConstP
     setPosition.pose.position.x = msg->LandingGoal_x;
     setPosition.pose.position.y = msg->LandingGoal_y;
     setPosition.pose.position.z = msg->LandingGoal_z;
-    //set_mode_client.call(msg->mode);
+    set_mode.request.custom_mode = msg->mode;
 
     ROS_INFO_ONCE("Position_controller_node got the first message from LandingGoal: x = %f, y = %f, z = %f", msg->LandingGoal_x, msg->LandingGoal_y, msg->LandingGoal_z);
 }
 
 void OffBControllerNode::Init_Parameters(){
-    offb_set_mode.request.custom_mode = "OFFBOARD";
-    arm_cmd.request.value = true;
+    set_mode.request.custom_mode = "AUTO.LOITER";
+    arm_cmd.request.value = false;
+    arm_before = false;
 
     setPosition.pose.position.x = 0;
     setPosition.pose.position.y = 0;
     setPosition.pose.position.z = 0;
-    server.setCallback(f);
 }
 
 int main(int argc, char **argv)

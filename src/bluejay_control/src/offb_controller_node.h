@@ -26,12 +26,11 @@ private:
     ros::NodeHandle core;
     double current_time;
     double start_time;
-    bool check_callback_takeoff;
-    bool check_callback_navigate;
-    bool check_callback_landing;
+    bool arm_before;
+    std::string mode_before;
 
     mavros_msgs::State current_state;
-    mavros_msgs::SetMode offb_set_mode;
+    mavros_msgs::SetMode set_mode;
     geometry_msgs::PoseStamped setPosition;
     mavros_msgs::CommandBool arm_cmd;
 
@@ -48,8 +47,6 @@ private:
     ros::Publisher setpoint_velo_pub;
 
     //service
-    dynamic_reconfigure::Server<bluejay_control::ControlConfig> server;
-    dynamic_reconfigure::Server<bluejay_control::ControlConfig>::CallbackType f;
     ros::ServiceClient arming_client;
     ros::ServiceClient set_mode_client;
 

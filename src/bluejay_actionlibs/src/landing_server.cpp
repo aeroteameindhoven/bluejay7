@@ -40,7 +40,7 @@ void LandingServer::executeCB(const bluejay_msgs::LandingGoalConstPtr &goal)
   landing_goal.LandingGoal_x = landing_pose.position.x;
   landing_goal.LandingGoal_y = landing_pose.position.y;
   landing_goal.LandingGoal_z = goal->LandingGoal_z;
-  //landing_goal.mode = "AUTO.LAND";
+  landing_goal.mode = "AUTO.LAND";
 
   goal_pub.publish(landing_goal);
   while(ros::ok()){
