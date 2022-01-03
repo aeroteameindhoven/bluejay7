@@ -1,5 +1,5 @@
 #include "math.h"
-#include "offb_controller_node.h"
+#include "bluejay_control/offb_controller_node.h"
 
 OffBControllerNode::OffBControllerNode(){
     ROS_INFO("OffBoard mode activated\n");

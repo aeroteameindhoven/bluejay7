@@ -27,16 +27,13 @@ include_directories(
   ~/softwareai7/devel/include
 )
 
-add_executable(bluejay_taskmanager src/taskmanager.cpp)
 add_executable(bluejay_taskmanager_node src/taskmanager_node.cpp
                                         src/takeoffclient.cpp
                                         src/task.cpp
-                                        src/landingclient.cpp)
+                                        src/landingclient.cpp
+                                        src/fakeclient.cpp)
 
-add_dependencies(bluejay_taskmanager ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(bluejay_taskmanager_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-target_link_libraries(bluejay_taskmanager ${catkin_LIBRARIES})
 target_link_libraries(bluejay_taskmanager_node ${catkin_LIBRARIES})
 
 

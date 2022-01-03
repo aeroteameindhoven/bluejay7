@@ -24,6 +24,7 @@ generate_dynamic_reconfigure_options(
 )
 
 catkin_package(
+    INCLUDE_DIRS include
     CATKIN_DEPENDS roscpp rospy std_msgs geometry_msgs
     mavros mavros_extras mavros_msgs
 )

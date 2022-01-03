@@ -10,10 +10,11 @@ enum PRIORITY {low, medium, high, emergency};
 class Task{
 public:
     Task();
-    Task(std::string taskName, int id, PRIORITY priority);
+    Task(std::string _taskName, int _id, PRIORITY _priority);
     void addAction(actionClient *client);
     bool executeTask();
     void cancelTask();
+    int getID();
 private:
     std::vector<actionClient*> allClients;
     std::string taskName;
