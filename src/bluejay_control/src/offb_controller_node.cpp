@@ -2,7 +2,7 @@
 #include "offb_controller_node.h"
 
 OffBControllerNode::OffBControllerNode(){
-    ROS_INFO("OffBoard mode activated\n");
+    ROS_INFO("OffBControllerNode activated\n");
     arming_client = core.serviceClient<mavros_msgs::CommandBool>("mavros/cmd/arming");
     set_mode_client = core.serviceClient<mavros_msgs::SetMode>("mavros/set_mode");
 
