@@ -1,5 +1,5 @@
 # Define the goal
-#string mode
+string mode
 float64 LandingGoal_x
 float64 LandingGoal_y
 float64 LandingGoal_z

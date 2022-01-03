@@ -1,5 +1,5 @@
 # Define the goal
-#geometry_msg/Pose TakeoffGoal
+string mode
 float64 TakeoffGoal_x
 float64 TakeoffGoal_y
 float64 TakeoffGoal_z

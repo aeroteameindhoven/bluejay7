@@ -82,6 +82,7 @@ void TakeOffServer::executeCB(const bluejay_msgs::TakeOffGoalConstPtr &goal){
     takeoff_goal.TakeoffGoal_x = takeoff_pose.position.x;
     takeoff_goal.TakeoffGoal_y = takeoff_pose.position.y;
     takeoff_goal.TakeoffGoal_z = goal->TakeoffGoal_z;
+    takeoff_goal.mode = "OFFBOARD";
     goal_pub.publish(takeoff_goal);
 
     while(ros::ok()){
