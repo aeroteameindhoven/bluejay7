@@ -16,6 +16,7 @@
 #include <bluejay_msgs/NavigateAction.h>
 #include <bluejay_msgs/LandingAction.h>
 #include <dynamic_reconfigure/server.h>
+#include <tf/transform_broadcaster.h>
 
 class OffBControllerNode{
 public:
@@ -27,12 +28,14 @@ private:
     double current_time;
     double start_time;
     bool arm_before;
-    std::string mode_before;
+    bool navigate_CB_check;
 
     mavros_msgs::State current_state;
     mavros_msgs::SetMode set_mode;
     geometry_msgs::PoseStamped setPosition;
     mavros_msgs::CommandBool arm_cmd;
+    geometry_msgs::Twist cmd_velo;
+    geometry_msgs::TwistStamped px4_velo;
 
     //subscriber
     ros::Subscriber state_sub;
@@ -54,6 +57,7 @@ private:
     void TakeOffCallback(const bluejay_msgs::TakeOffGoal::ConstPtr& msg);
     void NavigateCallback(const geometry_msgs::PoseStamped::ConstPtr& msg); //change the message type
     void LandingCallback(const bluejay_msgs::LandingGoal::ConstPtr& msg);
+    void VelocityCallback(const geometry_msgs::Twist::ConstPtr& vel);
 };
 
 #endif // OFFB_CONTROLLER_NODE_H

@@ -15,10 +15,14 @@ OffBControllerNode::OffBControllerNode(){
         ("/navigateserver/NavigateGoal_To_Controller", 10, &OffBControllerNode::NavigateCallback, this);
     landing_sub = core.subscribe<bluejay_msgs::LandingGoal>
         ("/landingserver/LandingGoal_To_Controller", 10, &OffBControllerNode::LandingCallback, this);
+    //vel_sub = core.subscribe<geometry_msgs::Twist>
+           // ("/cmd_vel", 10, &OffBControllerNode::VelocityCallback, this);
 
     //publisher
     local_pos_pub = core.advertise<geometry_msgs::PoseStamped>
         ("/mavros/setpoint_position/local", 10);
+    setpoint_velo_pub = core.advertise<geometry_msgs::TwistStamped>
+            ("/mavros/setpoint_velocity/cmd_vel", 10);
     ros::Rate frequency(10.0);
 
     Init_Parameters();
@@ -58,6 +62,7 @@ OffBControllerNode::OffBControllerNode(){
 
                    if (arm_before){
                        arm_cmd.request.value = false;   //PX4 disarms automatically after landing by AUTO.LAND
+                       setPosition.pose.position.z = 0;
                        ROS_INFO("Vehicle auto-disarmed after landing");
                    }
                    else if( arming_client.call(arm_cmd) &&
@@ -66,14 +71,13 @@ OffBControllerNode::OffBControllerNode(){
                         if (arm_cmd.request.value) ROS_INFO("Vehicle armed");
                         else ROS_INFO("Vehicle disarmed");
 
-                    }
+                   }
                     last_request = ros::Time::now();
 
                 }
-               mode_before = current_state.mode;
                arm_before = current_state.armed;
 
-                  local_pos_pub.publish(setPosition);
+               local_pos_pub.publish(setPosition);
 
                       ros::spinOnce();
                       frequency.sleep();
@@ -102,23 +106,31 @@ void OffBControllerNode::TakeOffCallback(const bluejay_msgs::TakeOffGoal::ConstP
 void OffBControllerNode::NavigateCallback(const geometry_msgs::PoseStamped::ConstPtr &msg){
     setPosition.pose.position.x = msg->pose.position.x;
     setPosition.pose.position.y = msg->pose.position.y;
-
-    ROS_INFO_ONCE("Position_controller_node got the first message from NavigateGoal: x = %f, y = %f, z = %f", msg->pose.position.x, msg->pose.position.y, setPosition.pose.position.z);
+    setPosition.pose.orientation.z = msg->pose.orientation.z;
+    setPosition.pose.orientation.w = msg->pose.orientation.w;
+    ROS_INFO("NavigateGoal: x = %f, y = %f, yaw = %f", msg->pose.position.x, msg->pose.position.y, setPosition.pose.orientation.z);
 }
 
 void OffBControllerNode::LandingCallback(const bluejay_msgs::LandingGoal::ConstPtr &msg){
-    setPosition.pose.position.x = msg->LandingGoal_x;
-    setPosition.pose.position.y = msg->LandingGoal_y;
-    setPosition.pose.position.z = msg->LandingGoal_z;
     set_mode.request.custom_mode = msg->mode;
 
     ROS_INFO_ONCE("Position_controller_node got the first message from LandingGoal: x = %f, y = %f, z = %f", msg->LandingGoal_x, msg->LandingGoal_y, msg->LandingGoal_z);
 }
 
+/*void OffBControllerNode::VelocityCallback(const geometry_msgs::Twist::ConstPtr& vel){
+    ROS_INFO_ONCE("offboard_controller_node got first Command Velocity message.");
+    cmd_velo = *vel;
+    setPosition.pose.position.x = setPosition.pose.position.x + vel->linear.x/10.0; //velocity divided by the controller frequency of movebase
+    setPosition.pose.position.y = setPosition.pose.position.y + vel->linear.y/10.0;
+    setPosition.pose.orientation.z = setPosition.pose.orientation.z + vel->angular.z/10.0;
+    ROS_INFO("NavigateGoal: x = %f, y = %f, yaw = %f", setPosition.pose.position.x, setPosition.pose.position.y, setPosition.pose.orientation.z);
+}*/
+
 void OffBControllerNode::Init_Parameters(){
     set_mode.request.custom_mode = "AUTO.LOITER";
     arm_cmd.request.value = false;
     arm_before = false;
+    navigate_CB_check = false;
 
     setPosition.pose.position.x = 0;
     setPosition.pose.position.y = 0;
