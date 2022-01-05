@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="bluejay_slam" pkg="bluejay_slam" type="bluejay_slam" output="screen"/>
+</launch>

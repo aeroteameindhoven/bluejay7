@@ -18,6 +18,7 @@ public:
 private:
     std::vector<Task> allTask;
     ros::NodeHandle nh_;
+    thread_pool pool{4};
 };
 
 #endif // TASKMANAGER_NODE_H

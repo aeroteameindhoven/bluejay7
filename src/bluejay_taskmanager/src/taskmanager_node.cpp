@@ -11,18 +11,10 @@ TaskmanagerNode::TaskmanagerNode(){
     test.addAction(_fakeClient2);
     printTest.addAction(_fakeClient3);
 
-    thread_pool Pool(3);
-
-    ros::Duration(7).sleep();
-
-    Pool.submit(printTest);
-
-    ros::Duration(7).sleep();
-
-    Pool.submit(test);
-
     while (ros::ok()) {
-
+        if (!allTask.empty()){
+            pool.submit(allTask.front());
+        }
     }
 }
 

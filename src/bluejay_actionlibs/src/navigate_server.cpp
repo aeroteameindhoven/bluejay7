@@ -16,38 +16,38 @@
 */
 
 NavigateServer::NavigateServer(){
-  ROS_INFO("Nav server is running");
-  //Publisher bypasses the goal to OffBoardcontrol node
-  goal_pub = nh_.advertise<geometry_msgs::PoseStamped>
-      ("/navigateserver/NavigateGoal_To_Controller", 10);
+    ROS_INFO("Nav server is running");
+    //Publisher bypasses the goal to OffBoardcontrol node
+    goal_pub = nh_.advertise<geometry_msgs::PoseStamped>
+        ("/navigateserver/NavigateGoal_To_Controller", 10);
 
-  path_sub = nh_.subscribe<nav_msgs::Path>
-      ("/move_base/TrajectoryPlannerROS/global_plan", 10, &NavigateServer::PathCallBack, this);
-  goal_sub = nh_.subscribe<geometry_msgs::PoseStamped>
-      ("/move_base_simple/goal", 10, &NavigateServer::GoalCallBack, this);
+    path_sub = nh_.subscribe<nav_msgs::Path>
+        ("/move_base/TrajectoryPlannerROS/global_plan", 10, &NavigateServer::PathCallBack, this);
+    goal_sub = nh_.subscribe<geometry_msgs::PoseStamped>
+        ("/move_base_simple/goal", 10, &NavigateServer::GoalCallBack, this);
 
-  Init_Parameters();
-  ros::Rate frequency(10.0);
+    Init_Parameters();
+    ros::Rate frequency(10.0);
 
-  while (ros::ok()){
-      if (callback_path == true){
-          if(sizeof(global_path.poses) > 0){
-              if(global_path.poses[count].pose.position.x == global_goal.pose.position.x &&
-                global_path.poses[count].pose.position.y == global_goal.pose.position.y){
-                ROS_INFO("Goal reached!!");
-              }
-              else {
-                  local_goal.pose.position.x = global_path.poses[count].pose.position.x;
-                  local_goal.pose.position.y = global_path.poses[count].pose.position.y;
-                  ROS_INFO("Next local goal: x = %f, y = %f", local_goal.pose.position.x, local_goal.pose.position.y);
-                  goal_pub.publish(local_goal);
-                  count++;
-              }
-           }
-      }
-      ros::spinOnce();
-      frequency.sleep();
-  }
+    while (ros::ok()){
+        if (callback_path == true){
+            if(sizeof(global_path.poses) > 0){
+                if(global_path.poses[count].pose.position.x == global_goal.pose.position.x &&
+                  global_path.poses[count].pose.position.y == global_goal.pose.position.y){
+                  ROS_INFO("Goal reached!!");
+                }
+                else {
+                    local_goal.pose.position.x = global_path.poses[count].pose.position.x;
+                    local_goal.pose.position.y = global_path.poses[count].pose.position.y;
+                    ROS_INFO("Next local goal: x = %f, y = %f", local_goal.pose.position.x, local_goal.pose.position.y);
+                    goal_pub.publish(local_goal);
+                    count++;
+                }
+             }
+        }
+        ros::spinOnce();
+        frequency.sleep();
+    }
 }
 
 NavigateServer::~NavigateServer(void){
@@ -75,21 +75,21 @@ void NavigateServer::StateCallback(const mavros_msgs::State::ConstPtr& msg){
   callback_State = true;
 }
 void NavigateServer::PoseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg) {
-  ROS_INFO_ONCE("Navigate_Server received the first altitude.");
+    ROS_INFO_ONCE("Navigate_Server received the first altitude.");
 
-  feedback_.pose_x = msg->pose.position.x;
-  feedback_.pose_y = msg->pose.position.y;
-  feedback_.pose_z = msg->pose.position.z;
+    feedback_.pose_x = msg->pose.position.x;
+    feedback_.pose_y = msg->pose.position.y;
+    feedback_.pose_z = msg->pose.position.z;
 
-  callback_Pose = true;
+    callback_Pose = true;
 }
 
 
 void NavigateServer::Init_Parameters(){
-  count = 0;
-  callback_Pose = false;
-  callback_State = false;
-  callback_path = false;
+    count = 0;
+    callback_Pose = false;
+    callback_State = false;
+    callback_path = false;
 }
 
 int main(int argc, char** argv)
