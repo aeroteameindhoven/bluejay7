@@ -130,7 +130,6 @@ void OffBControllerNode::Init_Parameters(){
     set_mode.request.custom_mode = "AUTO.LOITER";
     arm_cmd.request.value = false;
     arm_before = false;
-    navigate_CB_check = false;
 
     setPosition.pose.position.x = 0;
     setPosition.pose.position.y = 0;
