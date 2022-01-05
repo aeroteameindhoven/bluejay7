@@ -12,40 +12,40 @@
 
 class LandingServer
 {
-protected:
-  bool callback_Pose;
-  bool callback_State;
-  ros::NodeHandle nh_;
-  actionlib::SimpleActionServer<bluejay_msgs::LandingAction> as_; // NodeHandle instance must be created before this line. Otherwise strange error occurs.
-  std::string action_name_;
-  // create messages that are used to published feedback/result
-  bluejay_msgs::LandingFeedback feedback_;
-  bluejay_msgs::LandingResult result_;
-  mavros_msgs::State current_state;
-  geometry_msgs::Pose landing_pose;
-  bluejay_msgs::LandingGoal landing_goal;
-  geometry_msgs::PoseStamped global_goal;
+private:
+    bool callback_Pose;
+    bool callback_State;
+    ros::NodeHandle nh_;
+    actionlib::SimpleActionServer<bluejay_msgs::LandingAction> as_; // NodeHandle instance must be created before this line. Otherwise strange error occurs.
+    std::string action_name_;
+    // create messages that are used to published feedback/result
+    bluejay_msgs::LandingFeedback feedback_;
+    bluejay_msgs::LandingResult result_;
+    mavros_msgs::State current_state;
+    geometry_msgs::Pose landing_pose;
+    bluejay_msgs::LandingGoal landing_goal;
+    geometry_msgs::PoseStamped global_goal;
 
 
-  //subscriber
-  ros::Subscriber state_sub;
-  ros::Subscriber pose_sub;
+    //subscriber
+    ros::Subscriber state_sub;
+    ros::Subscriber pose_sub;
 
-  //publisher
-  ros::Publisher local_pos_pub;
-  ros::Publisher goal_pub;
+    //publisher
+    ros::Publisher local_pos_pub;
+    ros::Publisher goal_pub;
 
-  //service
-  //ros::ServiceClient arming_client;
-  void StateCallback(const mavros_msgs::State::ConstPtr& msg);
-  void PoseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg);
-  void Init_Parameters();
+    //service
+    //ros::ServiceClient arming_client;
+    void StateCallback(const mavros_msgs::State::ConstPtr& msg);
+    void PoseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg);
+    void Init_Parameters();
 
 public:
-  LandingServer(std::string name);
-  ~LandingServer();
+    LandingServer(std::string name);
+    ~LandingServer();
 
-  void executeCB(const bluejay_msgs::LandingGoalConstPtr &goal);
+    void executeCB(const bluejay_msgs::LandingGoalConstPtr &goal);
 
 };
 

@@ -5,7 +5,10 @@
 #include <vector>
 #include "takeoffclient.h"
 #include "landingclient.h"
+#include "fakeclient.h"
 #include "task.h"
+#include "bluejay_taskmanager/threadpool.h"
+
 
 class TaskmanagerNode{
 public:
@@ -15,7 +18,7 @@ public:
 private:
     std::vector<Task> allTask;
     ros::NodeHandle nh_;
-    void InitParameter();
+    thread_pool pool{4};
 };
 
 #endif // TASKMANAGER_NODE_H

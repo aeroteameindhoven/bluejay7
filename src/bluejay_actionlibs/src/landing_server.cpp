@@ -16,17 +16,17 @@
           ------------------------
 */
 LandingServer::LandingServer(std::string name) :
-  as_(nh_, name, boost::bind(&LandingServer::executeCB, this, _1), false),
-  action_name_(name)
+    as_(nh_, name, boost::bind(&LandingServer::executeCB, this, _1), false),
+    action_name_(name)
 {
-  Init_Parameters();
-  pose_sub = nh_.subscribe<geometry_msgs::PoseStamped>
-      ("/mavros/local_position/pose", 10, &LandingServer::PoseCallback, this);
+    Init_Parameters();
+    pose_sub = nh_.subscribe<geometry_msgs::PoseStamped>
+        ("/mavros/local_position/pose", 10, &LandingServer::PoseCallback, this);
 
-  //Publisher bypasses the goal to OffBoardcontrol node
-  goal_pub = nh_.advertise<bluejay_msgs::LandingGoal>
-      ("/landingserver/LandingGoal_To_Controller", 10);
-  as_.start();
+    //Publisher bypasses the goal to OffBoardcontrol node
+    goal_pub = nh_.advertise<bluejay_msgs::LandingGoal>
+        ("/landingserver/LandingGoal_To_Controller", 10);
+    as_.start();
 }
 
 LandingServer::~LandingServer(){
@@ -64,27 +64,27 @@ void LandingServer::executeCB(const bluejay_msgs::LandingGoalConstPtr &goal)
 
 //callback functions
 void LandingServer::StateCallback(const mavros_msgs::State::ConstPtr& msg){
-  ROS_INFO_ONCE("LandingServer got first Command IMU state message.");
-  feedback_.arm = msg -> armed;
-  current_state = *msg;
-  callback_State = true;
+    ROS_INFO_ONCE("LandingServer got first Command IMU state message.");
+    feedback_.arm = msg -> armed;
+    current_state = *msg;
+    callback_State = true;
 }
 void LandingServer::PoseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg) {
-  ROS_INFO_ONCE("LandingServer received the first altitude.");
+    ROS_INFO_ONCE("LandingServer received the first altitude.");
 
-  landing_pose = msg->pose;
+    landing_pose = msg->pose;
 
-  feedback_.Landing_x = msg->pose.position.x;
-  feedback_.Landing_y = msg->pose.position.y;
-  feedback_.Landing_z = msg->pose.position.z;
+    feedback_.Landing_x = msg->pose.position.x;
+    feedback_.Landing_y = msg->pose.position.y;
+    feedback_.Landing_z = msg->pose.position.z;
 
-  callback_Pose = true;
+    callback_Pose = true;
 }
 
 void LandingServer::Init_Parameters(){
-  callback_Pose = false;
-  callback_State = false;
-  result_.successLanding = false;
+    callback_Pose = false;
+    callback_State = false;
+    result_.successLanding = false;
 }
 
 int main(int argc, char** argv)

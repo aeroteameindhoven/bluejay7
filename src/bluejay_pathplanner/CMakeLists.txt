@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(bluejay_control)
+project(bluejay_pathplanner)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -10,18 +10,13 @@ project(bluejay_control)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
-  dynamic_reconfigure
   tf
-  pcl_ros
   mavros
   mavros_extras
   mavros_msgs
   mavlink
 )
 
-generate_dynamic_reconfigure_options(
-  resource/Control.cfg
-)
 
 catkin_package(
     INCLUDE_DIRS include
@@ -35,9 +30,13 @@ include_directories(
   ~/softwareai7/devel/include
 )
 
-add_executable(bluejay_control src/offb_controller_node.cpp)
-add_dependencies(bluejay_control ${PROJECT_NAME})
-target_link_libraries(bluejay_control ${catkin_LIBRARIES})
+
+add_executable(bluejay_pathplanner src/globalplanner.cpp)
+add_dependencies(bluejay_pathplanner ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(bluejay_pathplanner ${catkin_LIBRARIES})
+
+
+
 
 
 

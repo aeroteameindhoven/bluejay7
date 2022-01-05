@@ -29,8 +29,6 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(bluejay_slam src/test_fake_pose.cpp)
-target_link_libraries(bluejay_slam ${catkin_LIBRARIES})
 
 
 

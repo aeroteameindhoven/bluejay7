@@ -2,13 +2,24 @@
 
 TaskmanagerNode::TaskmanagerNode(){
     Task test;
-    takeoffClient *fakeClient = new takeoffClient();
-    //landingClient *fakeClient2 = new landingClient();
-    //takeoffClient *fakeClient3 = new takeoffClient(10);
-    test.addAction(fakeClient);
-    //test.addAction(fakeClient2);
-    //test.addAction(fakeClient3);
-    test.executeTask();
+    Task printTest;
+    takeoffClient *_fakeClient = new takeoffClient();
+    landingClient *_fakeClient2 = new landingClient();
+    fakeClient *_fakeClient3 = new fakeClient("Michem");
+
+    test.addAction(_fakeClient);
+    test.addAction(_fakeClient2);
+    printTest.addAction(_fakeClient3);
+
+    while (ros::ok()) {
+        if (!allTask.empty()){
+            pool.submit(allTask.front());
+        }
+    }
+}
+
+void TaskmanagerNode::addTask(Task task){
+    allTask.push_back(task);
 }
 
 int main (int argc, char **argv){
