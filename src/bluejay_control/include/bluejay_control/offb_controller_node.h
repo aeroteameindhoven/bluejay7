@@ -33,6 +33,7 @@ private:
     mavros_msgs::SetMode set_mode;
     geometry_msgs::PoseStamped setPosition;
     mavros_msgs::CommandBool arm_cmd;
+    geometry_msgs::Twist cmd_velo;
 
     //subscriber
     ros::Subscriber state_sub;
@@ -54,6 +55,7 @@ private:
     void TakeOffCallback(const bluejay_msgs::TakeOffGoal::ConstPtr& msg);
     void NavigateCallback(const geometry_msgs::PoseStamped::ConstPtr& msg); //change the message type
     void LandingCallback(const bluejay_msgs::LandingGoal::ConstPtr& msg);
+    void VelocityCallback(const geometry_msgs::Twist::ConstPtr& vel);
 };
 
 #endif // OFFB_CONTROLLER_NODE_H

@@ -1,2 +1,2 @@
-controller_frequency: 1.0
+controller_frequency: 10.0
 planner_frequency: 1.0

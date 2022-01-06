@@ -15,8 +15,8 @@ OffBControllerNode::OffBControllerNode(){
         ("/navigateserver/NavigateGoal_To_Controller", 10, &OffBControllerNode::NavigateCallback, this);
     landing_sub = core.subscribe<bluejay_msgs::LandingGoal>
         ("/landingserver/LandingGoal_To_Controller", 10, &OffBControllerNode::LandingCallback, this);
-    //vel_sub = core.subscribe<geometry_msgs::Twist>
-           // ("/cmd_vel", 10, &OffBControllerNode::VelocityCallback, this);
+    vel_sub = core.subscribe<geometry_msgs::Twist>
+            ("/cmd_vel", 10, &OffBControllerNode::VelocityCallback, this);
 
     //publisher
     local_pos_pub = core.advertise<geometry_msgs::PoseStamped>
@@ -117,14 +117,14 @@ void OffBControllerNode::LandingCallback(const bluejay_msgs::LandingGoal::ConstP
     ROS_INFO_ONCE("Position_controller_node got the first message from LandingGoal: x = %f, y = %f, z = %f", msg->LandingGoal_x, msg->LandingGoal_y, msg->LandingGoal_z);
 }
 
-/*void OffBControllerNode::VelocityCallback(const geometry_msgs::Twist::ConstPtr& vel){
+void OffBControllerNode::VelocityCallback(const geometry_msgs::Twist::ConstPtr& vel){
     ROS_INFO_ONCE("offboard_controller_node got first Command Velocity message.");
     cmd_velo = *vel;
-    setPosition.pose.position.x = setPosition.pose.position.x + vel->linear.x/10.0; //velocity divided by the controller frequency of movebase
-    setPosition.pose.position.y = setPosition.pose.position.y + vel->linear.y/10.0;
-    setPosition.pose.orientation.z = setPosition.pose.orientation.z + vel->angular.z/10.0;
-    ROS_INFO("NavigateGoal: x = %f, y = %f, yaw = %f", setPosition.pose.position.x, setPosition.pose.position.y, setPosition.pose.orientation.z);
-}*/
+    //setPosition.pose.position.x = setPosition.pose.position.x + vel->linear.x/10.0; //velocity divided by the controller frequency of movebase
+    //setPosition.pose.position.y = setPosition.pose.position.y + vel->linear.y/10.0;
+    //setPosition.pose.orientation.z = setPosition.pose.orientation.z + vel->angular.z/10.0;
+    //ROS_INFO("NavigateGoal: x = %f, y = %f, yaw = %f", setPosition.pose.position.x, setPosition.pose.position.y, setPosition.pose.orientation.z);
+}
 
 void OffBControllerNode::Init_Parameters(){
     set_mode.request.custom_mode = "AUTO.LOITER";
