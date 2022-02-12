@@ -1,0 +1,45 @@
+#include "bluejay_taskmanager/circleclient.h"
+
+circleClient::circleClient(){
+    clientName = "circle";
+    goal.CircleGoal_circle_number = 1.0;
+    delayTime = 1;
+}
+
+circleClient::circleClient(int _delayTime){
+    clientName = "circle";
+    delayTime = _delayTime;
+    goal.CircleGoal_circle_number = 1.0;
+}
+
+circleClient::circleClient(int _delayTime, bluejay_msgs::circleGoal _goal){
+    clientName = "circle";
+    goal = _goal;
+    delayTime = _delayTime;
+}
+
+bool circleClient::execute(){
+    ros::Rate frequency(1);
+    frequency.sleep();
+    actionlib::SimpleActionClient<bluejay_msgs::circleAction> ac("circle_server", true);
+    ROS_INFO("Waiting for circle action server to start.");
+    ac.waitForServer(); //will wait for infinite time
+    ac.sendGoal(goal); // send a goal to the action
+
+    bool finished_before_timeout = ac.waitForResult(ros::Duration(120.0));
+
+    if (finished_before_timeout){
+        actionlib::SimpleClientGoalState state = ac.getState();
+        ROS_INFO("circle action finished: %s",state.toString().c_str());
+        if(state == actionlib::SimpleClientGoalState::StateEnum::SUCCEEDED){
+            return true;
+        } else return false;
+    } else {
+        ROS_INFO("circle action did not finish before the time out.");
+        return false;
+    }
+}
+
+std::string circleClient::toString(){
+    return "circle Client";
+}
