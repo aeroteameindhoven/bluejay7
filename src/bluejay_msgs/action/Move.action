@@ -1,0 +1,14 @@
+# Define the goal
+string mode
+float64 MoveGoal_x
+float64 MoveGoal_y
+float64 MoveGoal_z
+---
+# Define the result
+bool successMove
+---
+# Define a feedback message
+float64 Move_x
+float64 Move_y
+float64 Move_z
+bool arm

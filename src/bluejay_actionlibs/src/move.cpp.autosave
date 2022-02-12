@@ -1,0 +1,66 @@
+#include "bluejay_actionlibs/move.h"
+#include "math.h"
+
+/*navigate action server(s) communicate with
+ * offboard controller through ROS Master
+          ------------------------
+          --    Task Manager    --
+          ------------------------
+                    |  |
+          ------------------------
+          --    Action server   --
+          ------------------------
+                    |  |
+          ------------------------
+          --    off_b control   --
+          ------------------------
+*/
+MoveServer::MoveServer(std::string name) :
+    as_(nh_, name, boost::bind(&MoveServer::executeCB, this, _1), false),
+    action_name_(name)
+{
+    Init_Parameters();
+    pose_sub = nh_.subscribe<geometry_msgs::PoseStamped>
+        ("/mavros/local_position/pose", 10, &MoveServer::PoseCallback, this);
+
+    //Publisher bypasses the goal to OffBoardcontrol node
+    goal_pub = nh_.advertise<bluejay_msgs::MoveGoal>
+        ("/MoveServer/MoveGoal_To_Controller", 10);
+    as_.start();
+}
+
+MoveServer::~MoveServer(){
+}
+
+
+
+void MoveServer::executeCB(const bluejay_msgs::MoveGoalConstPtr &goal)
+{
+  ROS_INFO("Move action is being executed");
+
+  ros::Rate frequency(10.0);
+  landing_goal.LandingGoal_x = landing_pose.position.x;
+  landing_goal.LandingGoal_y = landing_pose.position.y;
+  landing_goal.LandingGoal_z = goal->LandingGoal_z;
+  landing_goal.mode = "AUTO.LAND";
+
+  goal_pub.publish(move_goal);
+  while(ros::ok()){
+    if (as_.isPreemptRequested()){
+                ROS_INFO("%s: Preempted", action_name_.c_str());
+                // set the action state to preempted
+                as_.setPreempted();
+                break;
+    }
+    if (callback_Pose && callback_State) as_.publishFeedback(feedback_);
+    if (feedback_.Landing_z - goal->LandingGoal_z <= 0.1){  //drone reaches the goal
+                result_.successLanding = true;
+                ROS_INFO("Landing succeeded");
+                as_.setSucceeded(result_);        //set action state to succeeded
+                break;
+    }
+
+    frequency.sleep();
+  }
+}
+

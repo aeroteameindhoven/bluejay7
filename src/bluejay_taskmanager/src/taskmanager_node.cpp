@@ -6,8 +6,10 @@ TaskmanagerNode::TaskmanagerNode(){
     takeoffClient *_fakeClient = new takeoffClient();
     landingClient *_fakeClient2 = new landingClient();
     fakeClient *_fakeClient3 = new fakeClient("Michem");
+    MoveClient *_fakeClient4 =new MoveClient();
 
     test.addAction(_fakeClient);
+    test.addAction(_fakeClient4);
     test.addAction(_fakeClient2);
     printTest.addAction(_fakeClient3);
 

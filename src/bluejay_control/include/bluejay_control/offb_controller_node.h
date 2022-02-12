@@ -15,6 +15,7 @@
 #include <bluejay_msgs/TakeOffAction.h>
 #include <bluejay_msgs/NavigateAction.h>
 #include <bluejay_msgs/LandingAction.h>
+#include <bluejay_msgs/MoveAction.h>
 #include <dynamic_reconfigure/server.h>
 
 class OffBControllerNode{
@@ -41,6 +42,7 @@ private:
     ros::Subscriber takeoff_sub;
     ros::Subscriber navigate_sub;
     ros::Subscriber landing_sub;
+    ros::Subscriber move_sub;
 
 
     //publisher
@@ -55,6 +57,7 @@ private:
     void TakeOffCallback(const bluejay_msgs::TakeOffGoal::ConstPtr& msg);
     void NavigateCallback(const geometry_msgs::PoseStamped::ConstPtr& msg); //change the message type
     void LandingCallback(const bluejay_msgs::LandingGoal::ConstPtr& msg);
+    void MoveCallback(const bluejay_msgs::MoveGoal::ConstPtr& msg);
     void VelocityCallback(const geometry_msgs::Twist::ConstPtr& vel);
 };
 
