@@ -15,6 +15,8 @@ OffBControllerNode::OffBControllerNode(){
         ("/navigateserver/NavigateGoal_To_Controller", 10, &OffBControllerNode::NavigateCallback, this);
     landing_sub = core.subscribe<bluejay_msgs::LandingGoal>
         ("/landingserver/LandingGoal_To_Controller", 10, &OffBControllerNode::LandingCallback, this);
+    move_sub = core.subscribe<bluejay_msgs::MoveGoal>
+        ("/moveserver/MoveGoal_To_Controller", 10, &OffBControllerNode::MoveCallback, this);
     vel_sub = core.subscribe<geometry_msgs::Twist>
             ("/cmd_vel", 10, &OffBControllerNode::VelocityCallback, this);
 
@@ -101,6 +103,16 @@ void OffBControllerNode::TakeOffCallback(const bluejay_msgs::TakeOffGoal::ConstP
     arm_cmd.request.value = true;
 
     ROS_INFO_ONCE("Position_controller_node got the first message from TakeOffGoal: x = %f, y = %f, z = %f", msg->TakeoffGoal_x, msg->TakeoffGoal_y, msg->TakeoffGoal_z);
+}
+
+void OffBControllerNode::MoveCallback(const bluejay_msgs::MoveGoal::ConstPtr &msg){
+    setPosition.pose.position.x = msg->MoveGoal_x;
+    setPosition.pose.position.y = msg->MoveGoal_y;
+    setPosition.pose.position.z = msg->MoveGoal_z;
+    set_mode.request.custom_mode = msg->mode;
+    arm_cmd.request.value = true;
+
+    ROS_INFO_ONCE("Position_controller_node got the first message from MoveGoal: x = %f, y = %f, z = %f", msg->MoveGoal_x, msg->MoveGoal_y, msg->MoveGoal_z);
 }
 
 void OffBControllerNode::NavigateCallback(const geometry_msgs::PoseStamped::ConstPtr &msg){
