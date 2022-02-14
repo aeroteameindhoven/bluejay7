@@ -15,6 +15,8 @@
     <!-- Launch amcl -->
     <node pkg="amcl" type="amcl" name="amcl" output="screen">
         <remap from="scan" to="/laser/scan"/>
+        
+        <param name="laser_max_range" value="10"/>
         <param name="odom_model_type" value="omni"/>
         <param name="odom_frame_id" value="odom"/>
         <param name="base_frame_id" value="base_link"/>

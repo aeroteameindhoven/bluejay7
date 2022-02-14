@@ -5,7 +5,6 @@
 #include <vector>
 #include "takeoffclient.h"
 #include "landingclient.h"
-#include "moveclient.h"
 #include "fakeclient.h"
 #include "task.h"
 #include "bluejay_taskmanager/threadpool.h"

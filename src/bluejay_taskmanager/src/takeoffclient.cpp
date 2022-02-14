@@ -4,7 +4,8 @@ takeoffClient::takeoffClient(){
     clientName = "takeoff";
     goal.TakeoffGoal_x = -1.0;
     goal.TakeoffGoal_y = -1.0;
-    goal.TakeoffGoal_z = 2;
+    goal.TakeoffGoal_z = 0.65;
+    goal.mode = "OFFBOARD";
     delayTime = 1;
 }
 
@@ -13,7 +14,7 @@ takeoffClient::takeoffClient(int _delayTime){
     delayTime = _delayTime;
     goal.TakeoffGoal_x = -1.0;
     goal.TakeoffGoal_y = -1.0;
-    goal.TakeoffGoal_z = 2;
+    goal.TakeoffGoal_z = 0.65;
 }
 
 takeoffClient::takeoffClient(int _delayTime, bluejay_msgs::TakeOffGoal _goal){
