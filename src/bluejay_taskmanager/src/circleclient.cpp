@@ -2,14 +2,14 @@
 
 circleClient::circleClient(){
     clientName = "circle";
-    goal.CircleGoal_circle_number = 1.0;
+    goal.CircleGoal_circle_number = 3.0;
     delayTime = 1;
 }
 
 circleClient::circleClient(int _delayTime){
     clientName = "circle";
     delayTime = _delayTime;
-    goal.CircleGoal_circle_number = 1.0;
+    goal.CircleGoal_circle_number = 3.0;
 }
 
 circleClient::circleClient(int _delayTime, bluejay_msgs::circleGoal _goal){
@@ -26,7 +26,7 @@ bool circleClient::execute(){
     ac.waitForServer(); //will wait for infinite time
     ac.sendGoal(goal); // send a goal to the action
 
-    bool finished_before_timeout = ac.waitForResult(ros::Duration(120.0));
+    bool finished_before_timeout = ac.waitForResult(ros::Duration(180.0));
 
     if (finished_before_timeout){
         actionlib::SimpleClientGoalState state = ac.getState();

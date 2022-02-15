@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
 add_action_files(DIRECTORY action FILES   Landing.action
                                           TakeOff.action
                                           Move.action
+                                          Circle.action
                                           Navigate.action)
 generate_messages(DEPENDENCIES geometry_msgs
                                actionlib_msgs

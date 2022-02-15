@@ -37,9 +37,11 @@ void CircleServer::executeCB(const bluejay_msgs::CircleGoalConstPtr &goal){
 
     ROS_INFO("Circle action is being executed");
     ros::Rate frequency(10.0);
-    float radius = 2.0; // circle radius is 2m
-    float cx = Circle_pose.position.x + radius, cy = Circle_pose.position.y; //the coordinates of the center point of circle
-    float theta = 0.0;
+    //number_of_circles = ;
+    radius = 2.0; // circle radius is 2m
+    cx = Circle_pose.position.x + radius;
+    cy = Circle_pose.position.y; //the coordinates of the center point of circle
+    theta = 0.0;
 
     //Circle_goal.mode = "OFFBOARD";
     
@@ -54,19 +56,27 @@ void CircleServer::executeCB(const bluejay_msgs::CircleGoalConstPtr &goal){
         }
 
         if (callback_Pose && callback_State) as_.publishFeedback(feedback_);
-
-        Circle_goal.CircleGoal_x = cx + radius*cos(theta);
-        Circle_goal.CircleGoal_y = cy + radius*sin(theta);
-        Circle_goal.CircleGoal_z = Circle_pose.position.z;
+        Circle_goal.position.x = cx + radius*cos(theta);
+        Circle_goal.position.y = cy + radius*sin(theta);
+        Circle_goal.position.z = Circle_pose.position.z;
         goal_pub.publish(Circle_goal);
         theta += 0.05;
 
-        if (abs(goal->CircleGoal_circle_number*2*3.141593 - theta) <= 0.03){  //drone finishes the circle and reaches the start position
+        if (abs(goal->CircleGoal_num*2*3.141593 - theta) <= 0.03){
+            if(abs(Circle_goal.position.x - Circle_pose.position.x) <= 1 &
+            abs(Circle_goal.position.y - Circle_pose.position.y) <= 1){  //drone finishes the circle and reaches the start position
             result_.successCircle = true;
             as_.setSucceeded(result_);
             ROS_INFO("Circle succeeded");
             break;
             //set action state to succeeded
+            }
+            else{
+              result_.successCircle = false;
+              as_.setSucceeded(result_);
+              ROS_INFO("Way Off the goal! Circle failed!");
+              break;
+            }
         }
 
         //ros::spinOnce();
@@ -78,8 +88,6 @@ void CircleServer::executeCB(const bluejay_msgs::CircleGoalConstPtr &goal){
 //callback functions
 void CircleServer::StateCallback(const mavros_msgs::State::ConstPtr& msg){
     ROS_INFO_ONCE("Circle_Server got first Command IMU state message.");
-    feedback_.mode = msg -> mode;
-    feedback_.arm = msg -> armed;
     current_state = *msg;
     callback_State = true;
 }

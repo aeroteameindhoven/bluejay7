@@ -1,6 +1,6 @@
 # Define the goal
 
-float64 CircleGoal_circle_number
+float64 CircleGoal_num
 ---
 # Define the result
 bool successCircle
