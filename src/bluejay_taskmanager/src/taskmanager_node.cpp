@@ -1,29 +1,28 @@
 #include "bluejay_taskmanager/taskmanager_node.h"
+#include "bluejay_taskmanager/takeoffclient.h"
+#include "bluejay_taskmanager/landingclient.h"
+#include "bluejay_taskmanager/fakeclient.h"
+#include "bluejay_taskmanager/moveclient.h"
 
 TaskmanagerNode::TaskmanagerNode(){
     Task test;
     Task printTest;
     takeoffClient *_fakeClient = new takeoffClient();
-    //landingClient *_fakeClient2 = new landingClient();
-    fakeClient *_fakeClient3 = new fakeClient("Michem");
+    landingClient *_fakeClient2 = new landingClient();
+    moveClient *_moveClient = new moveClient();
 
     test.addAction(_fakeClient);
-    //test.addAction(_fakeClient2);
-    printTest.addAction(_fakeClient3);
+    test.addAction(_moveClient);
+    test.addAction(_fakeClient2);
 
     addTask(test);
 	
-	while (ros::ok()) {
+    while (ros::ok()) {
         if (!allTask.empty()){
             pool.submit(allTask.front());
+            allTask.erase(allTask.begin());
         }
     }
-    /*while (ros::ok()) {
-        if (!allTask.empty()){
-            pool.submit(allTask.front());
-            allTask.pop_back();
-        }
-    }*/
 }
 
 void TaskmanagerNode::addTask(Task task){

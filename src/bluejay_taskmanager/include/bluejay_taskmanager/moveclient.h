@@ -1,13 +1,13 @@
-#ifndef MOVECLIENT_H
-#define MOVECLIENT_H
+#ifndef moveClient_H
+#define moveClient_H
 #include "actionclient.h"
 #include "bluejay_msgs/MoveAction.h"
 
-class MoveClient : public actionClient{
+class moveClient : public actionClient{
 public:
-    MoveClient();
-    MoveClient(int _delayTime);
-    MoveClient(int _delayTime, bluejay_msgs::MoveGoal _goal);
+    moveClient();
+    moveClient(int _delayTime);
+    moveClient(int _delayTime, bluejay_msgs::MoveGoal _goal);
     virtual bool execute();
     virtual std::string toString();
 
@@ -20,4 +20,4 @@ private:
 };
 
 
-#endif // MOVECLIENT_H
+#endif // moveClient_H

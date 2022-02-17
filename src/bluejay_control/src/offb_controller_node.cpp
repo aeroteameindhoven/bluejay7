@@ -84,8 +84,6 @@ OffBControllerNode::OffBControllerNode(){
                       ros::spinOnce();
                       frequency.sleep();
             }
-
-
             }
         ROS_INFO("exit loop");
 }
@@ -101,16 +99,12 @@ void OffBControllerNode::TakeOffCallback(const bluejay_msgs::TakeOffGoal::ConstP
     setPosition.pose.position.z = msg->TakeoffGoal_z;
     set_mode.request.custom_mode = msg->mode;
     arm_cmd.request.value = true;
-
     ROS_INFO_ONCE("Position_controller_node got the first message from TakeOffGoal: x = %f, y = %f, z = %f", msg->TakeoffGoal_x, msg->TakeoffGoal_y, msg->TakeoffGoal_z);
 }
 
 void OffBControllerNode::MoveCallback(const bluejay_msgs::MoveGoal::ConstPtr &msg){
     setPosition.pose.position.x = msg->MoveGoal_x;
     setPosition.pose.position.y = msg->MoveGoal_y;
-    setPosition.pose.position.z = msg->MoveGoal_z;
-    set_mode.request.custom_mode = msg->mode;
-    arm_cmd.request.value = true;
 
     ROS_INFO_ONCE("Position_controller_node got the first message from MoveGoal: x = %f, y = %f, z = %f", msg->MoveGoal_x, msg->MoveGoal_y, msg->MoveGoal_z);
 }

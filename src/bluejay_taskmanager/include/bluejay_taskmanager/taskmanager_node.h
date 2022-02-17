@@ -3,9 +3,6 @@
 
 #include <ros/ros.h>
 #include <vector>
-#include "takeoffclient.h"
-#include "landingclient.h"
-#include "fakeclient.h"
 #include "task.h"
 #include "bluejay_taskmanager/threadpool.h"
 

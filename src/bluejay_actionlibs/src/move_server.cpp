@@ -25,7 +25,7 @@ MoveServer::MoveServer(std::string name) :
 
     //Publisher bypasses the goal to OffBoardcontrol node
     goal_pub = nh_.advertise<bluejay_msgs::MoveGoal>
-        ("/MoveServer/MoveGoal_To_Controller", 10);
+        ("/moveserver/MoveGoal_To_Controller", 10);
     as_.start();
 }
 
@@ -57,30 +57,32 @@ void MoveServer::executeCB(const bluejay_msgs::MoveGoalConstPtr &goal)
                 as_.setSucceeded(result_);        //set action state to succeeded
                 break;
     }
+
+    Move_goal.MoveGoal_x = Move_pose.position.x + goal->MoveGoal_x/50;
+    Move_goal.MoveGoal_y = Move_pose.position.y + goal->MoveGoal_y/50;
+    goal_pub.publish(Move_goal);
+
+    /*
     if(goal->MoveGoal_x > 0 && goal->MoveGoal_y > 0){
-      Move_goal.MoveGoal_x = Move_pose.position.x + 0.1;
-      Move_goal.MoveGoal_y = Move_pose.position.y + 0.1;
-      Move_goal.MoveGoal_z = Move_pose.position.z;
+      Move_goal.MoveGoal_x = Move_pose.position.x + goal->MoveGoal_x/50;
+      Move_goal.MoveGoal_y = Move_pose.position.y + goal->MoveGoal_y/50;
       goal_pub.publish(Move_goal);
 }
     else if (goal->MoveGoal_x < 0 && goal->MoveGoal_y < 0) {
-      Move_goal.MoveGoal_x = Move_pose.position.x - 0.1;
-      Move_goal.MoveGoal_y = Move_pose.position.y - 0.1;
-      Move_goal.MoveGoal_z = Move_pose.position.z;
+      Move_goal.MoveGoal_x = Move_pose.position.x - 0.2;
+      Move_goal.MoveGoal_y = Move_pose.position.y - 0.2;
       goal_pub.publish(Move_goal);
 }
     else if (goal->MoveGoal_x > 0 && goal->MoveGoal_y < 0) {
-      Move_goal.MoveGoal_x = Move_pose.position.x + 0.1;
-      Move_goal.MoveGoal_y = Move_pose.position.y - 0.1;
-      Move_goal.MoveGoal_z = Move_pose.position.z;
+      Move_goal.MoveGoal_x = Move_pose.position.x + 0.2;
+      Move_goal.MoveGoal_y = Move_pose.position.y - 0.2;
       goal_pub.publish(Move_goal);
 }
     else if (goal->MoveGoal_x < 0 && goal->MoveGoal_y > 0) {
-      Move_goal.MoveGoal_x = Move_pose.position.x - 0.1;
-      Move_goal.MoveGoal_y = Move_pose.position.y + 0.1;
-      Move_goal.MoveGoal_z = Move_pose.position.z;
+      Move_goal.MoveGoal_x = Move_pose.position.x - 0.2;
+      Move_goal.MoveGoal_y = Move_pose.position.y + 0.2;
       goal_pub.publish(Move_goal);
-}
+}*/
     frequency.sleep();
   }
 }
