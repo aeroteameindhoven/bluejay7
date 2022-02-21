@@ -24,7 +24,7 @@ CircleServer::CircleServer(std::string name) :
         ("/mavros/local_position/pose", 10, &CircleServer::PoseCallback, this);
 
     //Publisher bypasses the goal to OffBoardcontrol node
-    goal_pub = nh_.advertise<bluejay_msgs::CircleGoal>
+    goal_pub = nh_.advertise<geometry_msgs::Pose>
         ("/CircleServer/CircleGoal_To_Controller", 10);
     as_.start();
 }
@@ -62,7 +62,7 @@ void CircleServer::executeCB(const bluejay_msgs::CircleGoalConstPtr &goal){
         goal_pub.publish(Circle_goal);
         theta += 0.05;
 
-        if (abs(goal->CircleGoal_num*2*3.141593 - theta) <= 0.03){
+        if (abs(goal->CircleGoal_num * 2*3.141593 - theta) <= 0.03){
             if(abs(Circle_goal.position.x - Circle_pose.position.x) <= 1 &
             abs(Circle_goal.position.y - Circle_pose.position.y) <= 1){  //drone finishes the circle and reaches the start position
             result_.successCircle = true;

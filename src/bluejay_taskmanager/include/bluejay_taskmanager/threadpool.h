@@ -62,6 +62,7 @@ public:
         jobQueue.emplace(newTask);
         newJob.notify_one();
     }
+
 private:
     uint8_t numThreads; // number of threads in the pool
     std::vector<std::thread> Pool; //the actual thread pool

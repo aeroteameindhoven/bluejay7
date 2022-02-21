@@ -18,13 +18,15 @@ OffBControllerNode::OffBControllerNode(){
     move_sub = core.subscribe<bluejay_msgs::MoveGoal>
         ("/moveserver/MoveGoal_To_Controller", 10, &OffBControllerNode::MoveCallback, this);
     vel_sub = core.subscribe<geometry_msgs::Twist>
-            ("/cmd_vel", 10, &OffBControllerNode::VelocityCallback, this);
+        ("/cmd_vel", 10, &OffBControllerNode::VelocityCallback, this);
+    circle_sub = core.subscribe<geometry_msgs::Pose>
+        ("/CircleServer/CircleGoal_To_Controller", 10, &OffBControllerNode::CircleCallback, this);
 
     //publisher
     local_pos_pub = core.advertise<geometry_msgs::PoseStamped>
         ("/mavros/setpoint_position/local", 10);
     setpoint_velo_pub = core.advertise<geometry_msgs::TwistStamped>
-            ("/mavros/setpoint_velocity/cmd_vel", 10);
+        ("/mavros/setpoint_velocity/cmd_vel", 10);
     ros::Rate frequency(10.0);
 
     Init_Parameters();
@@ -84,7 +86,8 @@ OffBControllerNode::OffBControllerNode(){
                       ros::spinOnce();
                       frequency.sleep();
             }
-            }
+
+    }
         ROS_INFO("exit loop");
 }
 
@@ -105,7 +108,7 @@ void OffBControllerNode::TakeOffCallback(const bluejay_msgs::TakeOffGoal::ConstP
 void OffBControllerNode::MoveCallback(const bluejay_msgs::MoveGoal::ConstPtr &msg){
     setPosition.pose.position.x = msg->MoveGoal_x;
     setPosition.pose.position.y = msg->MoveGoal_y;
-
+    ROS_INFO("setPosition z = %f", setPosition.pose.position.z);
     ROS_INFO_ONCE("Position_controller_node got the first message from MoveGoal: x = %f, y = %f, z = %f", msg->MoveGoal_x, msg->MoveGoal_y, msg->MoveGoal_z);
 }
 
@@ -126,10 +129,12 @@ void OffBControllerNode::LandingCallback(const bluejay_msgs::LandingGoal::ConstP
 void OffBControllerNode::VelocityCallback(const geometry_msgs::Twist::ConstPtr& vel){
     ROS_INFO_ONCE("offboard_controller_node got first Command Velocity message.");
     cmd_velo = *vel;
-    //setPosition.pose.position.x = setPosition.pose.position.x + vel->linear.x/10.0; //velocity divided by the controller frequency of movebase
-    //setPosition.pose.position.y = setPosition.pose.position.y + vel->linear.y/10.0;
-    //setPosition.pose.orientation.z = setPosition.pose.orientation.z + vel->angular.z/10.0;
-    //ROS_INFO("NavigateGoal: x = %f, y = %f, yaw = %f", setPosition.pose.position.x, setPosition.pose.position.y, setPosition.pose.orientation.z);
+}
+
+void OffBControllerNode::CircleCallback(const geometry_msgs::Pose::ConstPtr &msg){
+    setPosition.pose.position.x = msg->position.x;
+    setPosition.pose.position.y = msg->position.y;
+    ROS_INFO("setPosition z = %f", setPosition.pose.position.z);
 }
 
 void OffBControllerNode::Init_Parameters(){

@@ -32,7 +32,8 @@ add_executable(bluejay_taskmanager_node src/taskmanager_node.cpp
                                         src/task.cpp
                                         src/landingclient.cpp
                                         src/moveclient.cpp
-                                        src/fakeclient.cpp)
+                                        src/fakeclient.cpp
+                                        src/circleclient.cpp)
 
 add_dependencies(bluejay_taskmanager_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(bluejay_taskmanager_node ${catkin_LIBRARIES})

@@ -16,7 +16,7 @@
 #include <bluejay_msgs/NavigateAction.h>
 #include <bluejay_msgs/LandingAction.h>
 #include <bluejay_msgs/MoveAction.h>
-#include <dynamic_reconfigure/server.h>
+#include <bluejay_msgs/CircleAction.h>
 
 class OffBControllerNode{
 public:
@@ -43,7 +43,7 @@ private:
     ros::Subscriber navigate_sub;
     ros::Subscriber landing_sub;
     ros::Subscriber move_sub;
-
+    ros::Subscriber circle_sub;
 
     //publisher
     ros::Publisher local_pos_pub;
@@ -59,6 +59,7 @@ private:
     void LandingCallback(const bluejay_msgs::LandingGoal::ConstPtr& msg);
     void MoveCallback(const bluejay_msgs::MoveGoal::ConstPtr& msg);
     void VelocityCallback(const geometry_msgs::Twist::ConstPtr& vel);
+    void CircleCallback(const geometry_msgs::Pose::ConstPtr& msg);
 };
 
 #endif // OFFB_CONTROLLER_NODE_H

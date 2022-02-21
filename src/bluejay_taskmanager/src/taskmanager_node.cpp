@@ -3,17 +3,19 @@
 #include "bluejay_taskmanager/landingclient.h"
 #include "bluejay_taskmanager/fakeclient.h"
 #include "bluejay_taskmanager/moveclient.h"
+#include "bluejay_taskmanager/circleclient.h"
 
 TaskmanagerNode::TaskmanagerNode(){
     Task test;
     Task printTest;
-    takeoffClient *_fakeClient = new takeoffClient();
-    landingClient *_fakeClient2 = new landingClient();
+    takeoffClient *_takeOffClient = new takeoffClient();
+    landingClient *_landingClient = new landingClient();
+    circleClient *_circleClient = new circleClient();
     moveClient *_moveClient = new moveClient();
 
-    test.addAction(_fakeClient);
-    test.addAction(_moveClient);
-    test.addAction(_fakeClient2);
+    test.addAction(_takeOffClient);
+    test.addAction(_circleClient);
+    test.addAction(_landingClient);
 
     addTask(test);
 	

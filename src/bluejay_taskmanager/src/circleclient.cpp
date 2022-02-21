@@ -1,31 +1,33 @@
 #include "bluejay_taskmanager/circleclient.h"
 
+
 circleClient::circleClient(){
     clientName = "circle";
-    goal.CircleGoal_circle_number = 3.0;
+    goal.CircleGoal_num = 3.0;
     delayTime = 1;
 }
 
 circleClient::circleClient(int _delayTime){
     clientName = "circle";
     delayTime = _delayTime;
-    goal.CircleGoal_circle_number = 3.0;
+    goal.CircleGoal_num = 3.0;
 }
 
-circleClient::circleClient(int _delayTime, bluejay_msgs::circleGoal _goal){
+circleClient::circleClient(int _delayTime, bluejay_msgs::CircleGoal _goal){
     clientName = "circle";
     goal = _goal;
     delayTime = _delayTime;
 }
 
+
 bool circleClient::execute(){
     ros::Rate frequency(1);
     frequency.sleep();
-    actionlib::SimpleActionClient<bluejay_msgs::circleAction> ac("circle_server", true);
+    actionlib::SimpleActionClient<bluejay_msgs::CircleAction> ac("circle_server", true);
     ROS_INFO("Waiting for circle action server to start.");
     ac.waitForServer(); //will wait for infinite time
     ac.sendGoal(goal); // send a goal to the action
-
+    ROS_INFO("Sending goal to circle action server.");
     bool finished_before_timeout = ac.waitForResult(ros::Duration(180.0));
 
     if (finished_before_timeout){
@@ -43,3 +45,4 @@ bool circleClient::execute(){
 std::string circleClient::toString(){
     return "circle Client";
 }
+
