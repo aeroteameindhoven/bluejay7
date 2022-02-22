@@ -2,8 +2,8 @@
 
 moveClient::moveClient(){
     clientName = "Move";
-    goal.MoveGoal_x = 3;
-    goal.MoveGoal_y = 3;
+    goal.MoveGoal_x = 2;
+    goal.MoveGoal_y = 0;
     goal.MoveGoal_z = 0;
     delayTime = 1;
 }
@@ -11,8 +11,8 @@ moveClient::moveClient(){
 moveClient::moveClient(int _delayTime){
     clientName = "Move";
     delayTime = _delayTime;
-    goal.MoveGoal_x = 3;
-    goal.MoveGoal_y = 3;
+    goal.MoveGoal_x = 2;
+    goal.MoveGoal_y = 0;
     goal.MoveGoal_z = 0;
 }
 

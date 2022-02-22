@@ -50,41 +50,33 @@ void MoveServer::executeCB(const bluejay_msgs::MoveGoalConstPtr &goal)
     }
 
     if (callback_Pose && callback_State) as_.publishFeedback(feedback_);
-    if (abs(Move_pose.position.x - Initial_pose.position.x) > abs(goal->MoveGoal_x)
-        && abs(Move_pose.position.y - Initial_pose.position.y) > abs(goal->MoveGoal_y) ){  //drone reaches the goal
-                result_.successMove = true;
-                ROS_INFO("Move succeeded");
-                as_.setSucceeded(result_);        //set action state to succeeded
-                break;
+
+    if (abs(Move_goal.MoveGoal_x) >= abs(goal->MoveGoal_x) || abs(Move_goal.MoveGoal_x) >= abs(goal->MoveGoal_x)){
+      if (abs(Move_pose.position.x - Initial_pose.position.x) > abs(goal->MoveGoal_x) -0.3
+          && abs(Move_pose.position.y - Initial_pose.position.y) > abs(goal->MoveGoal_y) - 0.3){  //drone reaches the goal
+                  result_.successMove = true;
+                  ROS_INFO("Move succeeded");
+                  as_.setSucceeded(result_);        //set action state to succeeded
+                  break;
+      }
+      else {
+        result_.successMove = false;
+        ROS_INFO("Move failed: Way too off from the goal!!");
+        as_.setSucceeded(result_);        //set action state to succeeded
+        break;
+      }
     }
 
-    Move_goal.MoveGoal_x = Move_pose.position.x + goal->MoveGoal_x/50;
-    Move_goal.MoveGoal_y = Move_pose.position.y + goal->MoveGoal_y/50;
+
+    //Move_goal.MoveGoal_x = Move_pose.position.x + goal->MoveGoal_x/10;
+    //Move_goal.MoveGoal_y = Move_pose.position.y + goal->MoveGoal_y/10;
+    Move_goal.MoveGoal_x += goal->MoveGoal_x/10;
+    Move_goal.MoveGoal_y += goal->MoveGoal_y/10;
     goal_pub.publish(Move_goal);
 
-    /*
-    if(goal->MoveGoal_x > 0 && goal->MoveGoal_y > 0){
-      Move_goal.MoveGoal_x = Move_pose.position.x + goal->MoveGoal_x/50;
-      Move_goal.MoveGoal_y = Move_pose.position.y + goal->MoveGoal_y/50;
-      goal_pub.publish(Move_goal);
-}
-    else if (goal->MoveGoal_x < 0 && goal->MoveGoal_y < 0) {
-      Move_goal.MoveGoal_x = Move_pose.position.x - 0.2;
-      Move_goal.MoveGoal_y = Move_pose.position.y - 0.2;
-      goal_pub.publish(Move_goal);
-}
-    else if (goal->MoveGoal_x > 0 && goal->MoveGoal_y < 0) {
-      Move_goal.MoveGoal_x = Move_pose.position.x + 0.2;
-      Move_goal.MoveGoal_y = Move_pose.position.y - 0.2;
-      goal_pub.publish(Move_goal);
-}
-    else if (goal->MoveGoal_x < 0 && goal->MoveGoal_y > 0) {
-      Move_goal.MoveGoal_x = Move_pose.position.x - 0.2;
-      Move_goal.MoveGoal_y = Move_pose.position.y + 0.2;
-      goal_pub.publish(Move_goal);
-}*/
     frequency.sleep();
   }
+  ROS_INFO("exiting call back");
 }
 
 

@@ -14,6 +14,7 @@ TaskmanagerNode::TaskmanagerNode(){
     moveClient *_moveClient = new moveClient();
 
     test.addAction(_takeOffClient);
+    test.addAction(_moveClient);
     test.addAction(_circleClient);
     test.addAction(_landingClient);
 

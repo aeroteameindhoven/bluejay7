@@ -108,7 +108,7 @@ void OffBControllerNode::TakeOffCallback(const bluejay_msgs::TakeOffGoal::ConstP
 void OffBControllerNode::MoveCallback(const bluejay_msgs::MoveGoal::ConstPtr &msg){
     setPosition.pose.position.x = msg->MoveGoal_x;
     setPosition.pose.position.y = msg->MoveGoal_y;
-    ROS_INFO("setPosition z = %f", setPosition.pose.position.z);
+    ROS_INFO("Move Goal: setPosition x = %f, y = %f, z = %f", setPosition.pose.position.x, setPosition.pose.position.y, setPosition.pose.position.z);
     ROS_INFO_ONCE("Position_controller_node got the first message from MoveGoal: x = %f, y = %f, z = %f", msg->MoveGoal_x, msg->MoveGoal_y, msg->MoveGoal_z);
 }
 
@@ -134,7 +134,7 @@ void OffBControllerNode::VelocityCallback(const geometry_msgs::Twist::ConstPtr& 
 void OffBControllerNode::CircleCallback(const geometry_msgs::Pose::ConstPtr &msg){
     setPosition.pose.position.x = msg->position.x;
     setPosition.pose.position.y = msg->position.y;
-    ROS_INFO("setPosition z = %f", setPosition.pose.position.z);
+    ROS_INFO("Circle Goal: setPosition x = %f, y = %f, z = %f", setPosition.pose.position.x, setPosition.pose.position.y, setPosition.pose.position.z);
 }
 
 void OffBControllerNode::Init_Parameters(){
