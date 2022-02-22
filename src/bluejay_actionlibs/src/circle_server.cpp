@@ -1,5 +1,8 @@
 #include "bluejay_actionlibs/circle_server.h"
 #include <math.h>
+
+#define PI 3.14159265
+
 /*navigate action server(s) communicate with
  * offboard controller through ROS Master
           ------------------------
@@ -37,10 +40,11 @@ void CircleServer::executeCB(const bluejay_msgs::CircleGoalConstPtr &goal){
 
     ROS_INFO("Circle action is being executed");
     ros::Rate frequency(10.0);
-    //number_of_circles = ;
-    radius = 2.0; // circle radius is 2m
-    cx = Circle_pose.position.x + radius;
-    cy = Circle_pose.position.y; //the coordinates of the center point of circle
+
+    radius = 1.5; // circle radius is 2m
+    //calculating the center of the circle
+    cx = static_cast<float>(Circle_pose.position.x) - radius * static_cast<float>(cos(PI*45/180));
+    cy = static_cast<float>(Circle_pose.position.y) - radius * static_cast<float>(sin(PI*45/180));
     theta = 0.0;
 
     //Circle_goal.mode = "OFFBOARD";
@@ -56,9 +60,8 @@ void CircleServer::executeCB(const bluejay_msgs::CircleGoalConstPtr &goal){
         }
 
         if (callback_Pose && callback_State) as_.publishFeedback(feedback_);
-        Circle_goal.position.x = cx + radius*cos(theta);
-        Circle_goal.position.y = cy + radius*sin(theta);
-        Circle_goal.position.z = Circle_pose.position.z;
+        Circle_goal.position.x = cx + radius*cos(theta + PI*45/180);
+        Circle_goal.position.y = cy + radius*sin(theta + PI*45/180);
         goal_pub.publish(Circle_goal);
         theta += 0.05;
 
@@ -79,7 +82,6 @@ void CircleServer::executeCB(const bluejay_msgs::CircleGoalConstPtr &goal){
             }
         }
 
-        //ros::spinOnce();
         frequency.sleep();
     }
     ROS_INFO("exiting call back");
@@ -112,7 +114,7 @@ void CircleServer::Init_Parameters(){
 int main(int argc, char** argv)
 {
    ros::init(argc, argv, "Circle_server");
-   CircleServer Circle_server("Circle_server");
+   CircleServer Circle_server("circle_server");
    ros::spin();
    return 0;
 }

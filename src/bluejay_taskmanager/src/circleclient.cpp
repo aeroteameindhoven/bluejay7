@@ -1,6 +1,4 @@
 #include "bluejay_taskmanager/circleclient.h"
-
-
 circleClient::circleClient(){
     clientName = "circle";
     goal.CircleGoal_num = 3.0;

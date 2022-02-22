@@ -19,7 +19,7 @@ protected:
   float radius;
   float cx;
   float cy;
-  float theta = 0.0;
+  double theta = 0.0;
   ros::NodeHandle nh_;
   actionlib::SimpleActionServer<bluejay_msgs::CircleAction> as_; // NodeHandle instance must be created before this line. Otherwise strange error occurs.
   std::string action_name_;
