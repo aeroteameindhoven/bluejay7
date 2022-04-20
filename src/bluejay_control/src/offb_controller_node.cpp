@@ -30,6 +30,7 @@ OffBControllerNode::OffBControllerNode(){
     ros::Rate frequency(10.0);
 
     Init_Parameters();
+    bool arm_before = false;
 
     ros::Time last_request = ros::Time::now();
 
@@ -140,7 +141,6 @@ void OffBControllerNode::CircleCallback(const geometry_msgs::Pose::ConstPtr &msg
 void OffBControllerNode::Init_Parameters(){
     set_mode.request.custom_mode = "AUTO.LOITER";
     arm_cmd.request.value = false;
-    arm_before = false;
 
     setPosition.pose.position.x = 0;
     setPosition.pose.position.y = 0;

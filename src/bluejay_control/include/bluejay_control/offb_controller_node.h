@@ -18,6 +18,10 @@
 #include <bluejay_msgs/MoveAction.h>
 #include <bluejay_msgs/CircleAction.h>
 
+/**
+ * @class OffBControllerNode
+ * @brief A class that process waypoint from navigation group server that moves the drone base to a goal location.
+ */
 class OffBControllerNode{
 public:
     OffBControllerNode();
@@ -25,9 +29,6 @@ public:
 
 private:
     ros::NodeHandle core;
-    double current_time;
-    double start_time;
-    bool arm_before;
     std::string mode_before;
 
     mavros_msgs::State current_state;

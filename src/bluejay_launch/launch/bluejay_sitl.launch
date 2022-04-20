@@ -11,7 +11,7 @@
     
     <!-- Launch static_transform_publisher -->
     <node pkg="tf" type="static_transform_publisher" name="laser_base_link" args="0 0 0 0 0 0 base_link /rplidar_link 30" output="log"/>
-        
+
     <!-- Launch amcl -->
     <node pkg="amcl" type="amcl" name="amcl" output="screen">
         <remap from="scan" to="/laser/scan"/>
