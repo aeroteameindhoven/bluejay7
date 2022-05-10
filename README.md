@@ -13,10 +13,11 @@ MKPLq5tkFeTbCjnU2mgq
 ```
 
 ### 3.2 Copy the file ubuntu_sim_ros.sh into your home folder and run it.
-On how to run a script in Ubuntu.
+On how to run a script in Ubuntu. This script will insall MAVROS + MAVLINK + ROS
+    ```
     https://www.cyberciti.biz/faq/run-execute-sh-shell-script/
-This script will install Gazebo + MAVROS + MAVLINK
-If you already have MavRos + Mavlink installed, copy the file mavros_install.sh into your home folder and run it instead.
+    ```
+If you already have ROS installed, copy the file mavros_install.sh into your home folder and run it instead.
 
 ### 3.3 Install QGroundControl for manual control of the simulated drone
     https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.html
