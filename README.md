@@ -1,22 +1,31 @@
 # Installation Instruction: Setting up the development environment and simulation
-# For Ubuntu 18.04 or above (Note: Ubuntu version > 20 might have problem with apt keys)
+## 1 Install Ubuntu 18.04 or above (Note: Ubuntu version > 20 might have problem with apt keys (Wont work with step 2))
+    https://ubuntu.com/tutorials/install-ubuntu-desktop#1-overview
 
-## Install ROS Melodic/Noetic
+## 2 Install ROS Melodic/Noetic
     http://wiki.ros.org/ROS/Installation
-## Clone this folder into your Ubuntu homefolder
 
-## Copy the file ubuntu_sim_ros.sh into your home folder and run it.
+## 3 Install the software stack + other supporting software    
+### 3.1 Clone this folder into your Ubuntu homefolder
+Password for push pull etc: 
+'''
+MKPLq5tkFeTbCjnU2mgq
+'''
+
+### 3.2 Copy the file ubuntu_sim_ros.sh into your home folder and run it.
 On how to run a script in Ubuntu.
     https://www.cyberciti.biz/faq/run-execute-sh-shell-script/
 This script will install Gazebo + MAVROS + MAVLINK
 If you already have MavRos + Mavlink installed, copy the file mavros_install.sh into your home folder and run it instead.
 
-## Install QGroundControl for manual control of the simulated drone
+### 3.3 Install QGroundControl for manual control of the simulated drone
     https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.html
 
-## Install the PX4 flight controller + Tools
+### 3.4 Install the PX4 flight controller + Tools
 1. Git clone from this folder
+    '''
     https://github.com/PX4/PX4-Autopilot
+    '''
 2. In the terminal, go to the newly cloned folder and run the below command
     ```
     DONT_RUN=1 make px4_sitl_default gazebo
@@ -27,7 +36,7 @@ If you already have MavRos + Mavlink installed, copy the file mavros_install.sh 
     source Tools/setup_gazebo.bash $(pwd) $(pwd)/build/px4_sitl_default
     ```
     
-## Set up development environment
+### 3.5 Set up development environment
 1. Open up a new terminal 
 2. In the new terminal run: 
     ```
@@ -42,6 +51,7 @@ If you already have MavRos + Mavlink installed, copy the file mavros_install.sh 
     #PX4 sourcing
     source $PX4_PATH/Tools/setup_gazebo.bash $PX4_PATH $PX4_PATH/build/px4_sitl_default
     ```
+4. Save file and close the application
 
-## To launch the entire project:
+### 3.6 To launch the entire project:
     roslaunch bluejay_launch bluejay_sitl.launch 
