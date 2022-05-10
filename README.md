@@ -8,9 +8,9 @@
 ## 3 Install the software stack + other supporting software    
 ### 3.1 Clone this folder into your Ubuntu homefolder
 Password for push pull etc: 
-'''
+```
 MKPLq5tkFeTbCjnU2mgq
-'''
+```
 
 ### 3.2 Copy the file ubuntu_sim_ros.sh into your home folder and run it.
 On how to run a script in Ubuntu.
@@ -23,9 +23,9 @@ If you already have MavRos + Mavlink installed, copy the file mavros_install.sh 
 
 ### 3.4 Install the PX4 flight controller + Tools
 1. Git clone from this folder
-    '''
+    ```
     https://github.com/PX4/PX4-Autopilot
-    '''
+    ```
 2. In the terminal, go to the newly cloned folder and run the below command
     ```
     DONT_RUN=1 make px4_sitl_default gazebo
