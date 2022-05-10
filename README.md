@@ -33,7 +33,7 @@ If you already have MavRos + Mavlink installed, copy the file mavros_install.sh 
     ```
     sudo gedit .bashrc
     ```
-3. This will takes you to a new text file. In this text file, copy the lines below
+3. This will takes you to a new text file. In this text file, copy the lines below and paste them to the end of the file
     ```
     #environment variable
     export PX4_PATH="/home/<Your home folder here>/PX4-Autopilot"
