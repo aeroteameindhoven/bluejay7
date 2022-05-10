@@ -1,0 +1,13 @@
+# Define the goal
+
+float64 CircleGoal_num
+---
+# Define the result
+bool successCircle
+---
+# Define a feedback message
+bool arm
+
+float64 Circle_x
+float64 Circle_y
+float64 Circle_z
