@@ -18,24 +18,30 @@ If you already have MavRos + Mavlink installed, copy the file mavros_install.sh 
 1. Git clone from this folder
     https://github.com/PX4/PX4-Autopilot
 2. In the terminal, go to the newly cloned folder and run the below command
+    ```
     DONT_RUN=1 make px4_sitl_default gazebo
+    ```
 *In case of missing packages, go through the error msgs and install the missing packages. Repeat this step until you have all the required packages
 3. After finishing all the steps above, run this command:
+    ```
     source Tools/setup_gazebo.bash $(pwd) $(pwd)/build/px4_sitl_default
+    ```
     
 ## Set up development environment
 1. Open up a new terminal 
 2. In the new terminal run: 
+    ```
     sudo gedit .bashrc
+    ```
 3. This will takes you to a new text file. In this text file, copy the lines below
-```
-#environment variable
-export PX4_PATH="/home/<Your home folder here>/PX4-Autopilot"
-#source ROS workspace 
-source ~/softwareai7/devel/setup.bash
-#PX4 sourcing
-source $PX4_PATH/Tools/setup_gazebo.bash $PX4_PATH $PX4_PATH/build/px4_sitl_default
-```
+    ```
+    #environment variable
+    export PX4_PATH="/home/<Your home folder here>/PX4-Autopilot"
+    #source ROS workspace 
+    source ~/softwareai7/devel/setup.bash
+    #PX4 sourcing
+    source $PX4_PATH/Tools/setup_gazebo.bash $PX4_PATH $PX4_PATH/build/px4_sitl_default
+    ```
 
 ## To launch the entire project:
     roslaunch bluejay_launch bluejay_sitl.launch 
