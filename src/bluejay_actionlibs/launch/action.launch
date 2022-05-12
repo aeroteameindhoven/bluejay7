@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="bluejay_actionlibs_takeoff" pkg="bluejay_actionlibs" type="bluejay_actionlibs_takeoff" output="screen"/>
+    <node name="bluejay_actionlibs_landing" pkg="bluejay_actionlibs" type="bluejay_actionlibs_landing" output="screen"/>
+    <node name="bluejay_actionlibs_move" pkg="bluejay_actionlibs" type="bluejay_actionlibs_move" output="screen"/>
+    <node name="bluejay_actionlibs_circle" pkg="bluejay_actionlibs" type="bluejay_actionlibs_circle" output="screen"/>
+
+</launch>

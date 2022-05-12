@@ -3,7 +3,7 @@
   <world name="default">
     <gui>
       <camera name="user_camera">
-        <pose>3.46873 8.39611 30.7711 3e-05 1.5698 1.58108</pose>
+        <pose>15 12 15 3e-05 1.5698 -1.58108</pose>
       </camera>
     </gui>
     <include>
@@ -16,7 +16,8 @@
       <uri>model://willowgarage</uri>
       <name>willow_garage</name>
       <static>true</static>
-      <pose>-10.85 4.53 0 0 0 0</pose>
+      <pose>-0.85 -20 0 0 0 0</pose>
+      <!--<pose>-10.85 4.53 0 0 0 0</pose>-->
     </include>
   </world>
 </sdf>

@@ -1,0 +1,15 @@
+# Define the goal
+string mode
+float64 TakeoffGoal_x
+float64 TakeoffGoal_y
+float64 TakeoffGoal_z
+---
+# Define the result
+bool successTakeoff
+---
+# Define a feedback message
+bool arm
+string mode
+float64 Takeoff_x
+float64 Takeoff_y
+float64 Takeoff_z

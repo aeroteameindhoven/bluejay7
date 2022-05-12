@@ -1,0 +1,13 @@
+# Define the goal
+float64 set_pose_x
+float64 set_pose_y
+float64 set_pose_z
+---
+# Define the result
+bool successNavigate
+---
+# Define a feedback message
+bool arm
+float64 pose_x
+float64 pose_y
+float64 pose_z

@@ -6,13 +6,17 @@
 /build
 /devel
 /logs
-
+/.catkin_tools
+/.catkin_tools/profiles/default/devel_collisions.txt
 # general catkin workspace setting
 *workspace*
+*.autosave
 
 # the rest
 *tools
 *.user*
 /slamware*
 *.rosinstall*
+.catkin*
+
 /avoidance*

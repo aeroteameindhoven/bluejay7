@@ -24,6 +24,7 @@ generate_dynamic_reconfigure_options(
 )
 
 catkin_package(
+    INCLUDE_DIRS include
     CATKIN_DEPENDS roscpp rospy std_msgs geometry_msgs
     mavros mavros_extras mavros_msgs
 )
@@ -31,11 +32,13 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ~/softwareai7/devel/include
 )
 
 add_executable(bluejay_control src/offb_controller_node.cpp)
-add_dependencies(bluejay_control ${PROJECT_NAME}_gencfg)
+add_dependencies(bluejay_control ${PROJECT_NAME})
 target_link_libraries(bluejay_control ${catkin_LIBRARIES})
+
 
 
 

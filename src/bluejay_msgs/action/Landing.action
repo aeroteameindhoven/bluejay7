@@ -1,0 +1,14 @@
+# Define the goal
+string mode
+float64 LandingGoal_x
+float64 LandingGoal_y
+float64 LandingGoal_z
+---
+# Define the result
+bool successLanding
+---
+# Define a feedback message
+float64 Landing_x
+float64 Landing_y
+float64 Landing_z
+bool arm
