@@ -1,20 +1,17 @@
 #ifndef GLOBALPLANNER_H
 #define GLOBALPLANNER_H
 
-#include <ros/ros.h>
-#include <geometry_msgs/PoseStamped.h>
-#include <costmap_2d/costmap_2d_ros.h>
 #include <tf/transform_listener.h>
-#include "pathfinding.h"
-#include <vector>
 #include <boost/algorithm/string.hpp>
 #include <boost/thread.hpp>
+#include "astar.h"
+#include "rrts.h"
 
-///costmap_node/costmap/costmap
+enum algorithm { ASTAR, RRT, DSTAR };
 
 class GlobalPlanner{
 public:
-    GlobalPlanner(std::string name, costmap_2d::Costmap2DROS* costmap_ros);
+    GlobalPlanner(std::string name, costmap_2d::Costmap2DROS* costmap_ros, algorithm algo);
 
     ~GlobalPlanner();
 
@@ -26,10 +23,11 @@ public:
                  );
 private:
     ros::NodeHandle nh_;
-    pathfinding *algorithm;
+    pathfinding *pathfinder;
 
-    //tf2_ros::Buffer& tf_;
     costmap_2d::Costmap2DROS* costmap_ros;
+    costmap_2d::Costmap2D* costmap;
+
     std::string name;
     std::string frame_id_;
     ros::Publisher plan_pub_;
@@ -41,6 +39,9 @@ private:
 
     double planner_window_x_, planner_window_y_, default_tolerance_;
     boost::mutex mutex_;
+
+    void calculatePath(costmap_2d::Costmap2D* costmap,
+                       geometry_msgs::Point start, geometry_msgs::Point end);
 
     void mapToWorld(double mx, double my, double& wx, double& wy);
     bool worldToMap(double wx, double wy, double& mx, double& my);
