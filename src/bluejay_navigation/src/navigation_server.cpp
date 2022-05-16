@@ -19,7 +19,7 @@ NavigationServer::NavigationServer(std::string name, tf2_ros::Buffer& tf) :
     action_name_(name)
 {
     global_planner_costmap_ros_ = new costmap_2d::Costmap2DROS("global_costmap", tf);
-    Gplanner = new GlobalPlanner("global_costmap",global_planner_costmap_ros_);
+    Gplanner = new GlobalPlanner("global_costmap",global_planner_costmap_ros_, ASTAR);
 
     global_planner_costmap_ros_->start();
 }

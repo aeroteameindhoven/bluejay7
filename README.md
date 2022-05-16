@@ -47,10 +47,10 @@ If you already have ROS installed, copy the file mavros_install.sh into your hom
     ```
     #environment variable
     export PX4_PATH="/home/<Your home folder here>/PX4-Autopilot"
-    #source ROS workspace 
-    source ~/softwareai7/devel/setup.bash
+
     #PX4 sourcing
-    source $PX4_PATH/Tools/setup_gazebo.bash $PX4_PATH $PX4_PATH/build/px4_sitl_default
+    export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$PX4_PATH
+    export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$PX4_PATH/Tools/sitl_gazebo
     ```
 4. Save file and close the application
 
