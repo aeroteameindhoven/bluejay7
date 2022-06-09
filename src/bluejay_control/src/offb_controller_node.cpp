@@ -52,6 +52,7 @@ OffBControllerNode::OffBControllerNode(){
     }
 
     while(ros::ok()){
+    arm_cmd.request.value = true;
             if( current_state.mode != set_mode.request.custom_mode &&
                 (ros::Time::now() - last_request > ros::Duration(5.0))){
 
@@ -62,17 +63,18 @@ OffBControllerNode::OffBControllerNode(){
                 last_request = ros::Time::now();
 
             } else {
-               if( current_state.armed != arm_cmd.request.value &&
-                    (ros::Time::now() - last_request > ros::Duration(5.0))){
-
+               if( current_state.armed != arm_cmd.request.value){
+                    //(ros::Time::now() - last_request > ros::Duration(5.0))){
+					ROS_INFO("WE GET HERE");
+					ROS_INFO("%d", arm_before);
                    if (arm_before){
+                   	   ROS_INFO("arm before");
                        arm_cmd.request.value = false;   //PX4 disarms automatically after landing by AUTO.LAND
                        setPosition.pose.position.z = 0;
                        ROS_INFO("Vehicle auto-disarmed after landing");
-                   }
-                   else if( arming_client.call(arm_cmd) &&
+                   } else if( arming_client.call(arm_cmd) &&
                         arm_cmd.response.success){
-
+						ROS_INFO("yayyyy");
                         if (arm_cmd.request.value) ROS_INFO("Vehicle armed");
                         else ROS_INFO("Vehicle disarmed");
 
