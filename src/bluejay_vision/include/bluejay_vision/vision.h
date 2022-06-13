@@ -11,6 +11,7 @@
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Path.h>
 #include <sensor_msgs/Image.h>
+#include <opencv2/aruco.hpp>
 
 class ArucoNode{
 public:
@@ -25,6 +26,9 @@ private:
     ros::Subscriber parameter_updates_sub;
     
     ros::Publisher position_pub;
+    
+    cv::Ptr<cv::aruco::Dictionary> dictionary;
+    cv::Ptr<cv::aruco::DetectorParameters> parameters;
     
     void imageCallback(const sensor_msgs::Image::ConstPtr& msg);
 };
