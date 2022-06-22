@@ -46,6 +46,11 @@ void ArucoNode::imageCallback(const sensor_msgs::Image::ConstPtr& msg){
 
 	//draw new image 
 	
+	ROS_INFO(corners.size());  
+	if (corners.size() > 1){
+		ROS_INFO("uhmmm");
+	}
+	
     if (ids.size() > 0)
         cv::aruco::drawDetectedMarkers(imageCopy, corners, ids);
 
