@@ -7,11 +7,14 @@ import cv2.aruco as aruco
 
 from std_msgs.msg import String
 from sensor_msgs.msg import Image
+from geometry_msgs.msg import PoseStamped
 from cv_bridge import CvBridge
 
 
 THRESHOLD = 50
+
 bridge = CvBridge()
+pub = rospy.Publisher('vision/quaternion', PoseStamped, queue_size=10)
 
 
 def get_quaternion_from_euler(roll, pitch, yaw):
@@ -30,8 +33,22 @@ def get_quaternion_from_euler(roll, pitch, yaw):
     qy = np.cos(roll / 2) * np.sin(pitch / 2) * np.cos(yaw / 2) + np.sin(roll / 2) * np.cos(pitch / 2) * np.sin(yaw / 2)
     qz = np.cos(roll / 2) * np.cos(pitch / 2) * np.sin(yaw / 2) - np.sin(roll / 2) * np.sin(pitch / 2) * np.cos(yaw / 2)
     qw = np.cos(roll / 2) * np.cos(pitch / 2) * np.cos(yaw / 2) + np.sin(roll / 2) * np.sin(pitch / 2) * np.sin(yaw / 2)
+    
+    
+    quaternion = [qx, qy, qz, qw]
+    
+    pose = PoseStamped()
+    
+    pose.pose.position.x = 0
+    pose.pose.position.y = 0
+    pose.pose.position.z = 0
+    
+    pose.pose.orientation.x = quaternion[0]
+    pose.pose.orientation.y = quaternion[1]
+    pose.pose.orientation.z = quaternion[2]
+    pose.pose.orientation.w = quaternion[3]
 
-    return [qx, qy, qz, qw]
+    return pose
 
 def findAruco(img, marker_size=6, total_markers=250, draw=True):
 
@@ -89,8 +106,6 @@ def rotate_aruco(img, corners, center):
 
     quaternion = get_quaternion_from_euler(0, 0, angle)
 
-    print(quaternion)
-
     return quaternion
 
     # if angle > 0:
@@ -110,7 +125,10 @@ def image_callback(data):
         center_aruco(img, center)
         
         # rotate aruco
-        rotate_aruco(img, corners, center)
+        quaternion = rotate_aruco(img, corners, center)
+        
+        #publish the rotation quaternion
+        pub.publish(quaternion)
     
     
     cv2.imshow("img", img)
