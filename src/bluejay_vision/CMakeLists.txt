@@ -17,6 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
   mavros_extras
   mavros_msgs
   mavlink
+  cv_bridge
 )
 
 find_package( OpenCV REQUIRED )
@@ -24,7 +25,7 @@ find_package( OpenCV REQUIRED )
 catkin_package(
     INCLUDE_DIRS include
     CATKIN_DEPENDS roscpp rospy std_msgs geometry_msgs
-    mavros mavros_extras mavros_msgs
+    mavros mavros_extras mavros_msgs cv_bridge
 )
 
 include_directories(

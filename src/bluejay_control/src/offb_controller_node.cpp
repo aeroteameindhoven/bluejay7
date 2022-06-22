@@ -69,13 +69,13 @@ OffBControllerNode::OffBControllerNode(){
 					ROS_INFO("%d", arm_before);
                    if (arm_before){
                    	   ROS_INFO("arm before");
-                       arm_cmd.request.value = false;   //PX4 disarms automatically after landing by AUTO.LAND
+                       arm_cmd.request.value = true;   //PX4 disarms automatically after landing by AUTO.LAND
                        setPosition.pose.position.z = 0;
                        ROS_INFO("Vehicle auto-disarmed after landing");
-                   } else if( arming_client.call(arm_cmd) &&
-                        arm_cmd.response.success){
+                   } else if( arming_client.call(arm_cmd) )
+                        {
 						ROS_INFO("yayyyy");
-                        if (arm_cmd.request.value) ROS_INFO("Vehicle armed");
+                        if (arm_cmd.response.success) ROS_INFO("Vehicle armed");
                         else ROS_INFO("Vehicle disarmed");
 
                    }
@@ -142,7 +142,7 @@ void OffBControllerNode::CircleCallback(const geometry_msgs::Pose::ConstPtr &msg
 
 void OffBControllerNode::Init_Parameters(){
     set_mode.request.custom_mode = "AUTO.LOITER";
-    arm_cmd.request.value = false;
+    arm_cmd.request.value = true;
 
     setPosition.pose.position.x = 0;
     setPosition.pose.position.y = 0;

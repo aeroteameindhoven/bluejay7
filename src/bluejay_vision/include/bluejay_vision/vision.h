@@ -12,6 +12,8 @@
 #include <nav_msgs/Path.h>
 #include <sensor_msgs/Image.h>
 #include <opencv2/aruco.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 class ArucoNode{
 public:
@@ -19,7 +21,7 @@ public:
 	
 private:
 	ros::NodeHandle core;
-	
+
 	ros::Subscriber camera_info_sub;
     ros::Subscriber image_sub;
     ros::Subscriber parameter_descriptions_sub;
