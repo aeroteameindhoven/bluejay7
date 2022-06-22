@@ -11,7 +11,7 @@
     <arg name="Y" default="0"/>
     <!-- vehicle model and world -->
     <arg name="est" default="ekf2"/>
-    <arg name="vehicle" default="iris_rplidar"/>
+    <arg name="vehicle" default="typhoon_h480"/>
     <arg name="world" default="$(find bluejay_gazebo)/worlds/willowgarage.world"/>
     <arg name="sdf" default="$(find bluejay_gazebo)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
 

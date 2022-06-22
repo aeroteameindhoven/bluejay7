@@ -13,6 +13,6 @@ Also, on a real robot, you'd want to set the "use_sim_time" parameter to false, 
 </node>
 
 <node name="bluejay_navigation" pkg="bluejay_navigation" type="bluejay_navigation" output="screen">
-      <rosparam file="$(find bluejay_navigation)/resource/example.yaml" command="load" ns="global_costmap" />
+      <rosparam file="$(find bluejay_navigation)/resource/navigation.yaml" command="load" ns="global_costmap" />
 </node>
 </launch>
