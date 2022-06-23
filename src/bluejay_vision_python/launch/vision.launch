@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="bluejay_vision_python" pkg="bluejay_vision_python" type="vision.py" output="screen"/>
+</launch>
