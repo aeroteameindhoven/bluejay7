@@ -8,7 +8,7 @@
 #include <mavros_msgs/CommandBool.h>
 #include <mavros_msgs/SetMode.h>
 #include <mavros_msgs/State.h>
-
+#include <queue>
 
 class LandingServer
 {
@@ -18,11 +18,17 @@ private:
     ros::NodeHandle nh_;
     actionlib::SimpleActionServer<bluejay_msgs::LandingAction> as_; // NodeHandle instance must be created before this line. Otherwise strange error occurs.
     std::string action_name_;
+
     // create messages that are used to published feedback/result
     bluejay_msgs::LandingFeedback feedback_;
     bluejay_msgs::LandingResult result_;
     mavros_msgs::State current_state;
+    geometry_msgs::Pose current_pose;
     geometry_msgs::Pose landing_pose;
+    geometry_msgs::Pose vision_pose;
+
+    std::queue<geometry_msgs::Pose> qr_poses;
+
     bluejay_msgs::LandingGoal landing_goal;
     geometry_msgs::PoseStamped global_goal;
 
@@ -30,15 +36,18 @@ private:
     //subscriber
     ros::Subscriber state_sub;
     ros::Subscriber pose_sub;
+    ros::Subscriber vision_sub;
 
     //publisher
     ros::Publisher local_pos_pub;
     ros::Publisher goal_pub;
+    ros::Publisher pose_pub;
 
     //service
     //ros::ServiceClient arming_client;
     void StateCallback(const mavros_msgs::State::ConstPtr& msg);
     void PoseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg);
+    void VisionCallback(const geometry_msgs::PoseStamped::ConstPtr& msg);
     void Init_Parameters();
 
 public:

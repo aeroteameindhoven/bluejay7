@@ -13,8 +13,8 @@ OffBControllerNode::OffBControllerNode(){
         ("/takeoffserver/TakeOffGoal_To_Controller", 10, &OffBControllerNode::TakeOffCallback, this);
     navigate_sub = core.subscribe<geometry_msgs::PoseStamped>
         ("/navigateserver/NavigateGoal_To_Controller", 10, &OffBControllerNode::NavigateCallback, this);
-    landing_sub = core.subscribe<bluejay_msgs::LandingGoal>
-        ("/landingserver/LandingGoal_To_Controller", 10, &OffBControllerNode::LandingCallback, this);
+    landing_sub = core.subscribe<geometry_msgs::Pose>
+        ("/landingserver/LandingPose_To_Controller", 10, &OffBControllerNode::LandingCallback, this);
     move_sub = core.subscribe<bluejay_msgs::MoveGoal>
         ("/moveserver/MoveGoal_To_Controller", 10, &OffBControllerNode::MoveCallback, this);
     vel_sub = core.subscribe<geometry_msgs::Twist>
@@ -44,6 +44,7 @@ OffBControllerNode::OffBControllerNode(){
     setPosition.pose.position.y = 0;
     setPosition.pose.position.z = 0;
 
+
     //send a few setpoints before starting
     for(int i = 10; ros::ok() && i > 0; --i){
         local_pos_pub.publish(setPosition);
@@ -52,7 +53,6 @@ OffBControllerNode::OffBControllerNode(){
     }
 
     while(ros::ok()){
-    arm_cmd.request.value = true;
             if( current_state.mode != set_mode.request.custom_mode &&
                 (ros::Time::now() - last_request > ros::Duration(5.0))){
 
@@ -65,21 +65,17 @@ OffBControllerNode::OffBControllerNode(){
             } else {
                if( current_state.armed != arm_cmd.request.value){
                     //(ros::Time::now() - last_request > ros::Duration(5.0))){
-					ROS_INFO("WE GET HERE");
-					ROS_INFO("%d", arm_before);
                    if (arm_before){
-                   	   ROS_INFO("arm before");
+                       ROS_INFO_ONCE("arm before");
                        arm_cmd.request.value = true;   //PX4 disarms automatically after landing by AUTO.LAND
                        setPosition.pose.position.z = 0;
-                       ROS_INFO("Vehicle auto-disarmed after landing");
+                       ROS_INFO_ONCE("Vehicle auto-disarmed after landing");
                    } else if( arming_client.call(arm_cmd) )
                         {
-						ROS_INFO("yayyyy");
-                        if (arm_cmd.response.success) ROS_INFO("Vehicle armed");
-                        else ROS_INFO("Vehicle disarmed");
+                        if (arm_cmd.response.success) ROS_INFO_ONCE("Vehicle armed");
 
                    }
-                    last_request = ros::Time::now();
+                   last_request = ros::Time::now();
 
                 }
                arm_before = current_state.armed;
@@ -91,7 +87,7 @@ OffBControllerNode::OffBControllerNode(){
             }
 
     }
-        ROS_INFO("exit loop");
+    ROS_INFO("exit loop");
 }
 
 void OffBControllerNode::StateCallback(const mavros_msgs::State::ConstPtr& msg){
@@ -111,7 +107,7 @@ void OffBControllerNode::TakeOffCallback(const bluejay_msgs::TakeOffGoal::ConstP
 void OffBControllerNode::MoveCallback(const bluejay_msgs::MoveGoal::ConstPtr &msg){
     setPosition.pose.position.x = msg->MoveGoal_x;
     setPosition.pose.position.y = msg->MoveGoal_y;
-    ROS_INFO("Move Goal: setPosition x = %f, y = %f, z = %f", setPosition.pose.position.x, setPosition.pose.position.y, setPosition.pose.position.z);
+    ROS_INFO_ONCE("Move Goal: setPosition x = %f, y = %f, z = %f", setPosition.pose.position.x, setPosition.pose.position.y, setPosition.pose.position.z);
     ROS_INFO_ONCE("Position_controller_node got the first message from MoveGoal: x = %f, y = %f, z = %f", msg->MoveGoal_x, msg->MoveGoal_y, msg->MoveGoal_z);
 }
 
@@ -123,10 +119,18 @@ void OffBControllerNode::NavigateCallback(const geometry_msgs::PoseStamped::Cons
     ROS_INFO("NavigateGoal: x = %f, y = %f, yaw = %f", msg->pose.position.x, msg->pose.position.y, setPosition.pose.orientation.z);
 }
 
-void OffBControllerNode::LandingCallback(const bluejay_msgs::LandingGoal::ConstPtr &msg){
-    set_mode.request.custom_mode = msg->mode;
+void OffBControllerNode::LandingCallback(const geometry_msgs::Pose::ConstPtr &msg){
+    ROS_INFO_ONCE("Landing signal received");
 
-    ROS_INFO_ONCE("Position_controller_node got the first message from LandingGoal: x = %f, y = %f, z = %f", msg->LandingGoal_x, msg->LandingGoal_y, msg->LandingGoal_z);
+    ROS_INFO_ONCE("before orientation.z = %f", setPosition.pose.orientation.z);
+    ROS_INFO_ONCE("before orientation.w = %f", setPosition.pose.orientation.w);
+
+    setPosition.pose.orientation.z = 0.9;
+    setPosition.pose.orientation.w = 0.9;
+    ROS_INFO_ONCE("orientation.z = %f", setPosition.pose.orientation.z);
+    ROS_INFO_ONCE("orientation.w = %f", setPosition.pose.orientation.w);
+
+    //set_mode.request.custom_mode = "AUTO.LAND";
 }
 
 void OffBControllerNode::VelocityCallback(const geometry_msgs::Twist::ConstPtr& vel){
@@ -137,7 +141,7 @@ void OffBControllerNode::VelocityCallback(const geometry_msgs::Twist::ConstPtr& 
 void OffBControllerNode::CircleCallback(const geometry_msgs::Pose::ConstPtr &msg){
     setPosition.pose.position.x = msg->position.x;
     setPosition.pose.position.y = msg->position.y;
-    ROS_INFO("Circle Goal: setPosition x = %f, y = %f, z = %f", setPosition.pose.position.x, setPosition.pose.position.y, setPosition.pose.position.z);
+    ROS_INFO_ONCE("Circle Goal: setPosition x = %f, y = %f, z = %f", setPosition.pose.position.x, setPosition.pose.position.y, setPosition.pose.position.z);
 }
 
 void OffBControllerNode::Init_Parameters(){
@@ -154,6 +158,5 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "offboard_node");
     new OffBControllerNode();
     ros::spin();
-
     return 0;
 }

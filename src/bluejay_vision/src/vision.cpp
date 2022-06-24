@@ -45,8 +45,6 @@ void ArucoNode::imageCallback(const sensor_msgs::Image::ConstPtr& msg){
 	ROS_INFO("finish detecting");
 
 	//draw new image 
-	
-	ROS_INFO(corners.size());  
 	if (corners.size() > 1){
 		ROS_INFO("uhmmm");
 	}
